@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  database:
+    image: mysql:8.0.26
+    container_name: qazaq_genius_db
+    volumes:
+      - ./database:/var/lib/mysql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD=kThisIsTheInitialDatabasePass
+    ports:
+      - '3306:3306'
