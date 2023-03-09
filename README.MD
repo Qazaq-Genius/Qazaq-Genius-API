@@ -6,9 +6,9 @@ title: Song Database
 ---
 erDiagram
 Album {
-	varchar(150)    name_cyr        
-	varchar(150)    name_lat        
-	varchar(1000)   cover_art       
+	varchar         name_cyr        
+	varchar         name_lat        
+	varchar         cover_art       
 	datetime        release_date    
 	datetime	    created            
 	datetime	    modified           
@@ -21,8 +21,8 @@ AlbumArtists {
    int              id               
 }
 Artist {
-   varchar(150)     name_cyr         
-   varchar(150)     name_lat         
+   varchar          name_cyr         
+   varchar          name_lat         
    datetime         created          
    datetime         modified         
    int              id               
@@ -30,10 +30,10 @@ Artist {
 Lyrics {
    int			    verse_nr         	
    int			    line_nr          	
-   varchar(1000)    qazaq_cyr        
-   varchar(1000)    qazaq_lat        
-   varchar(1000)    english            	
-   varchar(1000)    russian          
+   varchar          qazaq_cyr        
+   varchar          qazaq_lat        
+   varchar          english            	
+   varchar          russian          
    text             original_lang    
    datetime         created          
    datetime         modfied          
@@ -41,16 +41,16 @@ Lyrics {
    int	            id               	
 }
 Media {
-	varchar(150)    name             	
-	varchar(1000)   url               	
+	varchar        name             	
+	varchar        url               	
 	datetime	    created              	
 	datetime	    modified             	
 	int	            song_id         	
 	int	            id              	
 }
 Song {
-   varchar(300)     title_cyr      
-   varchar(300)     title_lat      
+   varchar          title_cyr      
+   varchar          title_lat      
    datetime         release_date   
    datetime	        created        
    datetime	        modified       
@@ -65,10 +65,10 @@ SongArtists {
 }
 Words {
    tinyint	        word_in_line_nr    
-   varchar(150)     qazaq_cyr           
-   varchar(150)     qazaq_lat           
-   varchar(150)     english             
-   varchar(150)     russian             
+   varchar          qazaq_cyr           
+   varchar          qazaq_lat           
+   varchar          english             
+   varchar          russian             
    text             additional_info     
    datetime         created             
    datetime         modified            
