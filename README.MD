@@ -76,14 +76,10 @@ Words {
    int              id                  
 }
 
-Album        ||--||  Artist : has
-AlbumArtists ||--||   Album : has
-AlbumArtists ||--||  Artist : has
-Lyrics       ||--||    Song : has
-Media        ||--||    Song : has
-Song         ||--||   Album : has
-Song         ||--||  Artist : has
-SongArtists  ||--||  Artist : has
-SongArtists  ||--||    Song : has
-Words        ||--||  Lyrics : has
+Album        }|--o{  Artist : has
+Lyrics       }|--||    Song : has
+Media        }o--||    Song : has
+Song         }|--o|   Album : has
+Song         }o--|{  Artist : has
+Words        }o--||  Lyrics : has
 ```
