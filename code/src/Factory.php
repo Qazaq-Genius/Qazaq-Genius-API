@@ -16,6 +16,9 @@ class Factory
             new MySQLArtistReader(
                 $this->mySQLConnector->getConnection()
             ),
+            new MySQLAlbumReader(
+                $this->mySQLConnector->getConnection()
+            ),
             new SongDataMapper(),
             $this->createApiResponse()
         );

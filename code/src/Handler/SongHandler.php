@@ -10,6 +10,7 @@ class SongHandler
     public function __construct(
         private MySQLSongReader $mySQLSongReader,
         private MySQLArtistReader $mySQLArtistReader,
+        private MySQLAlbumReader $mySQLAlbumReader,
         private SongDataMapper $songDataMapper,
         private ApiResponse $apiResponse
     ){}
@@ -19,12 +20,11 @@ class SongHandler
      */
     public function handle(Request $request, Response $response): Response
     {
-        $params = $request->getQueryParams();
         $song_id = $request->getAttribute('song_id');
 
         $songData = $this->mySQLSongReader->getSongById($song_id);
         $artistData = $this->mySQLArtistReader->getArtistBySongId($song_id);
-        $albumData = $this->mySQLArtistReader->getAlbum($songData['album_id']);
+        $albumData = $this->mySQLAlbumReader->getAlbum($songData['album_id']);
 
         if (empty($songData) || empty($artistData)){
             return $this->apiResponse->noData();
