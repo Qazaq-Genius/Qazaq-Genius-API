@@ -2,10 +2,12 @@
 
 namespace Qazaq_Genius\Lyrics_Api;
 
+use PDO;
+
 class MySQLSongReader
 {
     public function __construct(
-        private \PDO $mySQLConnection
+        private PDO $mySQLConnection
     ){}
 
     public function getSongById(int $id): array
@@ -13,12 +15,12 @@ class MySQLSongReader
         $sql = $this->mySQLConnection->prepare('
             SELECT *
              FROM Song 
-            WHERE id = :id'
-        );
+            WHERE id = :id
+        ');
 
         $sql->bindValue(":id", $id);
         $sql->execute();
-        $result = $sql->fetchAll(\PDO::FETCH_ASSOC);
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
 
         return $result;
     }

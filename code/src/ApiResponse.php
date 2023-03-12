@@ -2,9 +2,11 @@
 
 namespace Qazaq_Genius\Lyrics_Api;
 
+use Slim\Psr7\Response;
+
 class ApiResponse
 {
-    public function sucessfulResponse($response, $responseData, $statusCode = 200)
+    public function sucessful($response, $responseData, $statusCode = 200)
     {
         $response->getBody()->write(
             json_encode(
@@ -13,5 +15,11 @@ class ApiResponse
             )
         );
         return $response->withStatus($statusCode)->withHeader('Content-Type', 'application/json');
+    }
+
+    public function noData()
+    {
+        $response = new Response();
+        return $response->withStatus(204)->withHeader('Content-Type', 'application/json');
     }
 }

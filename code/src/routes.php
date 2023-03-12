@@ -15,5 +15,10 @@ return static function (App $app, Factory $factory): void {
                 return $factory->createSongHandler()->handle($request, $response);
             })->setName('v1.GET.song');
         });
+        $v1->group('/artist', function (Group $song) use ($factory) {
+            $song->get('/{artist_id:\d+}', function (Request $request, Response $response) use ($factory) {
+                return $factory->createArtistHandler()->handle($request, $response);
+            })->setName('v1.GET.artist');
+        });
     });
 };

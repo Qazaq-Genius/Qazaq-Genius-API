@@ -13,6 +13,20 @@ class Factory
             new MySQLSongReader(
                 $this->mySQLConnector->getConnection()
             ),
+            new MySQLArtistReader(
+                $this->mySQLConnector->getConnection()
+            ),
+            new SongDataMapper(),
+            $this->createApiResponse()
+        );
+    }
+
+    public function createArtistHandler(): ArtistHandler
+    {
+        return new ArtistHandler(
+            new MySQLArtistReader(
+                $this->mySQLConnector->getConnection()
+            ),
             $this->createApiResponse()
         );
     }
