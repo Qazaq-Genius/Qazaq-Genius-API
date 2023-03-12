@@ -8,7 +8,8 @@ class MySQLArtistReader
 {
     public function __construct(
         private PDO $mySQLConnection
-    ){}
+    ) {
+    }
 
     public function getArtistById(int $id): array
     {

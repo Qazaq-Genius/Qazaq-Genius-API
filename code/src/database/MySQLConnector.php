@@ -1,4 +1,5 @@
 <?php
+
 namespace Qazaq_Genius\Lyrics_Api;
 
 use Exception;
@@ -11,7 +12,7 @@ class MySQLConnector
 
     public function __construct()
     {
-        require_once (CONFIGS . "config.php");
+        require_once(CONFIGS . "config.php");
         try {
             $pdo = new PDO(DB_DSN, DB_USER, DB_PASS, DB_OPT);
             $this->connection = $pdo;

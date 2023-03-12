@@ -23,7 +23,7 @@ class SongDataMapper
     private function mapArtists(array $artistData): array
     {
         $artists = [];
-        foreach ($artistData as $artist){
+        foreach ($artistData as $artist) {
             $artists[] = [
                 "id"        => $artist["artist_id"],
                 "name_cyr"  => $artist["name_cyr"],

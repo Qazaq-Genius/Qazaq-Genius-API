@@ -44,3 +44,21 @@ tests:
                              --configuration tests/phpunit.xml
 	sed -i "s|/var/www/html|$$(pwd)/code|g" code/tests/reports/coverage/phpunit.coverage.xml #replace docker folder path with out
 	git update-index --assume-unchanged code/tests/reports/coverage/phpunit.coverage.xml #ignore changes in the coverage file, but keep in version control
+
+
+.PHONY: sniff
+sniff:  install ##code sniffer will be executed
+	@echo ""
+	@echo "+++++ SNIFFER +++++"
+	set -e
+	set -e
+	$(CLI) run php_cli /bin/sh -c "vendor/bin/php-code-validator src/ tests/"
+
+.PHONY: sniffer_fix
+sniffer_fix: install ##automatic fixing of some code style errors
+	@echo ""
+	@echo "+++++ SNIFFER FIXER+++++"
+	set -e
+	$(CLI) run php_cli /bin/sh -c "vendor/bin/phpcbf --standard=vendor/flyeralarm/php-code-validator/ruleset.xml src/ tests/"
+	docker-compose down -v --remove-orphans
+

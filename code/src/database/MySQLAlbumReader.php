@@ -8,11 +8,12 @@ class MySQLAlbumReader
 {
     public function __construct(
         private PDO $mySQLConnection
-    ){}
+    ) {
+    }
 
     public function getAlbum(int|null $albumId): array
     {
-        if ($albumId === null){
+        if ($albumId === null) {
             return [];
         }
 

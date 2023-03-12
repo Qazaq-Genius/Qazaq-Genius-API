@@ -1,4 +1,5 @@
 <?php
+
 namespace Qazaq_Genius\Lyrics_Api;
 
 use Psr\Http\Message\ResponseInterface as Response;

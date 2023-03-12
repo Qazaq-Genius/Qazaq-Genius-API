@@ -5,6 +5,7 @@ namespace Qazaq_Genius\Lyrics_Api;
 use JsonException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
 class SongHandler
 {
     public function __construct(
@@ -13,7 +14,8 @@ class SongHandler
         private MySQLAlbumReader $mySQLAlbumReader,
         private SongDataMapper $songDataMapper,
         private ApiResponse $apiResponse
-    ){}
+    ) {
+    }
 
     /**
      * @throws JsonException
@@ -26,7 +28,7 @@ class SongHandler
         $artistData = $this->mySQLArtistReader->getArtistBySongId($song_id);
         $albumData = $this->mySQLAlbumReader->getAlbum($songData['album_id']);
 
-        if (empty($songData) || empty($artistData)){
+        if (empty($songData) || empty($artistData)) {
             return $this->apiResponse->noData();
         }
 
