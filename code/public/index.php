@@ -14,7 +14,7 @@ $mySQLConnector = new MySQLConnector();
 
 $app = AppFactory::create();
 
-$factory = new Factory();
+$factory = new Factory($mySQLConnector);
 $routes = require_once(SRC . 'routes.php');
 $routes($app, $factory);
 

@@ -20,7 +20,7 @@ class MySQLConnector
         }
     }
 
-    public function getConnection(): \PDO
+    public function getConnection(): PDO
     {
         return $this->connection;
     }
