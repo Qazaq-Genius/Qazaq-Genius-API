@@ -1,25 +1,27 @@
 version: '3.5'
 services:
   nginx:
-    image: qazaq_genius/song_api/nginx:dev
-    container_name: qazaq_genius_song_api_nginx
+    image: qazaq_genius/lyrics_api/nginx:dev
+    container_name: qazaq_genius_lyrics_api_nginx
     volumes:
       - ./../../code/public:/var/www/html/public
     ports:
       - '80:80'
 
   php:
-    image: qazaq_genius/song_api/php:dev
-    container_name: qazaq_genius_song_api_php_fpm
+    image: qazaq_genius/lyrics_api/php:dev
+    container_name: qazaq_genius_lyrics_api_php_fpm
     volumes:
       - ./../../code:/var/www/html
+    environment:
+      - MYSQL_ROOT_PASSWORD=kThisIsTheInitialDatabasePass
 
   database:
-    image: qazaq_genius/song_api/database:dev
-    container_name: qazaq_genius_song_api_mysql
+    image: qazaq_genius/lyrics_api/database:dev
+    container_name: qazaq_genius_lyrics_api_mysql
     volumes:
       - ./../../database:/var/lib/mysql:rw
     environment:
-      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=kThisIsTheInitialDatabasePass
     ports:
       - '3306:3306'

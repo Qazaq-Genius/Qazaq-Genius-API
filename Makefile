@@ -5,13 +5,13 @@ PHPUNIT = /var/www/html/vendor/bin/phpunit
 .PHONY: build_dev
 build_dev:
 	docker build -f docker/php/Dockerfile . \
-	-t qazaq_genius/song_api/php:dev
+	-t qazaq_genius/lyrics_api/php:dev
 	docker build -f docker/nginx/Dockerfile . \
-	-t qazaq_genius/song_api/nginx:dev
+	-t qazaq_genius/lyrics_api/nginx:dev
 	docker build -f docker/database/Dockerfile . \
-	-t qazaq_genius/song_api/database:dev
+	-t qazaq_genius/lyrics_api/database:dev
 	docker build -f docker/php_cli/Dockerfile . \
-	-t qazaq_genius/song_api/php_cli:dev
+	-t qazaq_genius/lyrics_api/php_cli:dev
 
 .PHONY: run
 run:
@@ -24,6 +24,10 @@ stop:
 .PHONY: install
 install:
 	$(CLI) run --rm --no-deps php_cli php -d memory_limit=-1 /usr/local/bin/composer install
+
+.PHONY: autoload
+autoload:
+	$(CLI) run --rm --no-deps php_cli php -d memory_limit=-1 /usr/local/bin/composer dumpautoload
 
 .PHONY: update
 update:
