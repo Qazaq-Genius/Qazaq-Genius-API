@@ -1,6 +1,6 @@
 <?php
 
-namespace Qazaq_Genius\Lyrics_Api;
+namespace QazaqGenius\LyricsApi;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

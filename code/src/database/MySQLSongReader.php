@@ -1,19 +1,19 @@
 <?php
 
-namespace Qazaq_Genius\Lyrics_Api;
+namespace QazaqGenius\LyricsApi;
 
 use PDO;
 
 class MySQLSongReader
 {
     public function __construct(
-        private PDO $mySQLConnection
+        private PDO $mySqlConnection
     ) {
     }
 
     public function getSongById(int $id): array
     {
-        $sql = $this->mySQLConnection->prepare('
+        $sql = $this->mySqlConnection->prepare('
             SELECT *
              FROM Song 
             WHERE id = :id

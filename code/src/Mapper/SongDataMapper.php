@@ -1,6 +1,6 @@
 <?php
 
-namespace Qazaq_Genius\Lyrics_Api;
+namespace QazaqGenius\LyricsApi;
 
 class SongDataMapper
 {

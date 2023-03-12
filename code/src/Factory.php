@@ -1,11 +1,11 @@
 <?php
 
-namespace Qazaq_Genius\Lyrics_Api;
+namespace QazaqGenius\LyricsApi;
 
 class Factory
 {
     public function __construct(
-        private MySQLConnector $mySQLConnector
+        private MySQLConnector $mySqlConnector
     ) {
     }
 
@@ -13,13 +13,13 @@ class Factory
     {
         return new SongHandler(
             new MySQLSongReader(
-                $this->mySQLConnector->getConnection()
+                $this->mySqlConnector->getConnection()
             ),
             new MySQLArtistReader(
-                $this->mySQLConnector->getConnection()
+                $this->mySqlConnector->getConnection()
             ),
             new MySQLAlbumReader(
-                $this->mySQLConnector->getConnection()
+                $this->mySqlConnector->getConnection()
             ),
             new SongDataMapper(),
             $this->createApiResponse()
@@ -30,7 +30,7 @@ class Factory
     {
         return new ArtistHandler(
             new MySQLArtistReader(
-                $this->mySQLConnector->getConnection()
+                $this->mySqlConnector->getConnection()
             ),
             $this->createApiResponse()
         );

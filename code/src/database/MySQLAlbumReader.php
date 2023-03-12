@@ -1,13 +1,13 @@
 <?php
 
-namespace Qazaq_Genius\Lyrics_Api;
+namespace QazaqGenius\LyricsApi;
 
 use PDO;
 
 class MySQLAlbumReader
 {
     public function __construct(
-        private PDO $mySQLConnection
+        private PDO $mySqlConnection
     ) {
     }
 
@@ -17,7 +17,7 @@ class MySQLAlbumReader
             return [];
         }
 
-        $sql = $this->mySQLConnection->prepare('
+        $sql = $this->mySqlConnection->prepare('
             SELECT *
               FROM Album 
             WHERE Album.id = :album_id
