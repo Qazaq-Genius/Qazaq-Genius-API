@@ -10,8 +10,7 @@ class SongDataMapper
         array $albumData,
         array $lyricsData,
         array $wordData
-    ): array
-    {
+    ): array {
         return [
             'id'            => $songData["id"],
             'created_by'    => $songData["created_by"] ?? null,
@@ -93,8 +92,7 @@ class SongDataMapper
     private function mapWordsToLine(array $wordArray): array
     {
         $words = [];
-        foreach ($wordArray as $word)
-        {
+        foreach ($wordArray as $word) {
             $words[] = [
                 "word_in_line_nr" => $word["word_in_line_nr"],
                 "qazaq_cyr"       => $word["qazaq_cyr"],
@@ -105,5 +103,4 @@ class SongDataMapper
         }
         return $words;
     }
-
 }
