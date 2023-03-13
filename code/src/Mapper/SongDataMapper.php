@@ -4,7 +4,9 @@ namespace QazaqGenius\LyricsApi;
 
 class SongDataMapper
 {
-    public function mapToSong(array $songData, array $artistData, array $albumData): array
+    public function mapToSong(
+        array $songData, array $artistData, array $albumData, array $lyricsData
+    ): array
     {
         return [
             'id'            => $songData["id"],
@@ -16,7 +18,8 @@ class SongDataMapper
             'title_cyr'     => $songData["title_cyr"],
             'title_lat'     => $songData["title_lat"],
             'artists'       => $this->mapArtists($artistData),
-            'album'         => $this->mapAlbum($albumData)
+            'album'         => $this->mapAlbum($albumData),
+            'lyrics'        => $this->mapLyrics($lyricsData)
         ];
     }
 
@@ -44,5 +47,21 @@ class SongDataMapper
         ];
 
         return $album;
+    }
+
+    private function mapLyrics(array $lyricsData): array
+    {
+        $lyrics = [];
+        foreach ($lyricsData as $line) {
+            $lyrics[$line["verse_nr"]][$line["line_nr"]] = [
+                "line_nr"       => $line["line_nr"],
+                "qazaq_cyr"     => $line["qazaq_cyr"],
+                "qazaq_lat"     => $line["qazaq_lat"],
+                "english"       => $line["english"],
+                "russian"       => $line["russian"],
+                "original_lang" => $line["original_lang"],
+            ];
+        }
+        return $lyrics;
     }
 }

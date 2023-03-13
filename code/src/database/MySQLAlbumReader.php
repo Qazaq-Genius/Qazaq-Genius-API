@@ -20,7 +20,7 @@ class MySQLAlbumReader
         $sql = $this->mySqlConnection->prepare('
             SELECT *
               FROM Album 
-            WHERE Album.id = :album_id
+             WHERE Album.id = :album_id
         ');
 
         $sql->bindValue(":album_id", $albumId);

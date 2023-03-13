@@ -12,6 +12,7 @@ class SongHandler
         private MySQLSongReader $mySqlSongReader,
         private MySQLArtistReader $mySqlArtistReader,
         private MySQLAlbumReader $mySqlAlbumReader,
+        private MySQLLyricsReader $mySqlLyricsReader,
         private SongDataMapper $songDataMapper,
         private ApiResponse $apiResponse
     ) {
@@ -24,15 +25,21 @@ class SongHandler
     {
         $song_id = $request->getAttribute('song_id');
 
-        $songData = $this->mySqlSongReader->getSongById($song_id);
+        $songData   = $this->mySqlSongReader->getSongById($song_id);
         $artistData = $this->mySqlArtistReader->getArtistBySongId($song_id);
-        $albumData = $this->mySqlAlbumReader->getAlbum($songData['album_id']);
+        $albumData  = $this->mySqlAlbumReader->getAlbum($songData['album_id']);
+        $lyricsData = $this->mySqlLyricsReader->getLyricsBySongId($song_id);
 
         if (empty($songData) || empty($artistData)) {
             return $this->apiResponse->noData();
         }
 
-        $result = $this->songDataMapper->mapToSong($songData, $artistData, $albumData);
+        $result = $this->songDataMapper->mapToSong(
+            $songData,
+            $artistData,
+            $albumData,
+            $lyricsData
+        );
 
         return $this->apiResponse->sucessful($response, $result);
     }
