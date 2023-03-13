@@ -5,7 +5,11 @@ namespace QazaqGenius\LyricsApi;
 class SongDataMapper
 {
     public function mapToSong(
-        array $songData, array $artistData, array $albumData, array $lyricsData
+        array $songData,
+        array $artistData,
+        array $albumData,
+        array $lyricsData,
+        array $wordData
     ): array
     {
         return [
@@ -19,7 +23,7 @@ class SongDataMapper
             'title_lat'     => $songData["title_lat"],
             'artists'       => $this->mapArtists($artistData),
             'album'         => $this->mapAlbum($albumData),
-            'lyrics'        => $this->mapLyrics($lyricsData)
+            'lyrics'        => $this->mapLyrics($lyricsData, $wordData)
         ];
     }
 
@@ -49,19 +53,57 @@ class SongDataMapper
         return $album;
     }
 
-    private function mapLyrics(array $lyricsData): array
+    private function mapLyrics(array $lyricsData, array $wordData): array
     {
         $lyrics = [];
-        foreach ($lyricsData as $line) {
-            $lyrics[$line["verse_nr"]][$line["line_nr"]] = [
-                "line_nr"       => $line["line_nr"],
-                "qazaq_cyr"     => $line["qazaq_cyr"],
-                "qazaq_lat"     => $line["qazaq_lat"],
-                "english"       => $line["english"],
-                "russian"       => $line["russian"],
-                "original_lang" => $line["original_lang"],
+        foreach ($lyricsData as $current_line) {
+            $verse = $current_line["verse_nr"];
+            $line  = $current_line["line_nr"];
+
+            $lyrics[$verse][$line] = [
+                "line_nr"       => $current_line["line_nr"],
+                "qazaq_cyr"     => $current_line["qazaq_cyr"],
+                "qazaq_lat"     => $current_line["qazaq_lat"],
+                "english"       => $current_line["english"],
+                "russian"       => $current_line["russian"],
+                "original_lang" => $current_line["original_lang"],
             ];
+
+            $lyrics[$verse][$line]["words"] = $this->mapWordsToLyrics($wordData, $current_line["id"]);
         }
         return $lyrics;
     }
+
+    private function mapWordsToLyrics(array $wordData, int $current_line_id): array
+    {
+        $words = [];
+        foreach ($wordData as $wordArray) {
+            if ($this->areThereWordsInLine($wordArray, $current_line_id)) {
+                $words[] = $this->mapWordsToLine($wordArray);
+            }
+        }
+        return $words;
+    }
+
+    private function areThereWordsInLine(array $wordArray, int $current_line_id): bool
+    {
+        return isset($wordArray[0]) && $wordArray[0]["lyrics_id"] === $current_line_id;
+    }
+
+    private function mapWordsToLine(array $wordArray): array
+    {
+        $words = [];
+        foreach ($wordArray as $word)
+        {
+            $words[] = [
+                "word_in_line_nr" => $word["word_in_line_nr"],
+                "qazaq_cyr"       => $word["qazaq_cyr"],
+                "qazaq_lat"       => $word["qazaq_lat"],
+                "english"         => $word["english"],
+                "russian"         => $word["russian"],
+            ];
+        }
+        return $words;
+    }
+
 }

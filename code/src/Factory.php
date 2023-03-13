@@ -24,6 +24,9 @@ class Factory
             new MySQLLyricsReader(
                 $this->mySqlConnector->getConnection()
             ),
+            new MySQLWordReader(
+                $this->mySqlConnector->getConnection()
+            ),
             new SongDataMapper(),
             $this->createApiResponse()
         );
