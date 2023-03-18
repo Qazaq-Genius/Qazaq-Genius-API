@@ -9,9 +9,9 @@ class Factory
     ) {
     }
 
-    public function createSongHandler(): SongHandler
+    public function createSongReader(): SongReader
     {
-        return new SongHandler(
+        return new SongReader(
             new MySQLSongReader(
                 $this->mySqlConnector->getConnection()
             ),
@@ -28,6 +28,12 @@ class Factory
                 $this->mySqlConnector->getConnection()
             ),
             new SongDataMapper(),
+            $this->createApiResponse()
+        );
+    }
+    public function createSongWriter(): SongWriter
+    {
+        return new SongWriter(
             $this->createApiResponse()
         );
     }

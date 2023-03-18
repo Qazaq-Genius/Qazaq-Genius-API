@@ -12,8 +12,11 @@ return static function (App $app, Factory $factory): void {
 
     $app->group('/api/v1', function (Group $v1) use ($factory) {
         $v1->group('/song', function (Group $song) use ($factory) {
+            $song->post('', function (Request $request, Response $response) use ($factory) {
+                return $factory->createSongWriter()->handle($request, $response);
+            })->setName('v1.POST.song');
             $song->get('/{song_id:\d+}', function (Request $request, Response $response) use ($factory) {
-                return $factory->createSongHandler()->handle($request, $response);
+                return $factory->createSongReader()->handle($request, $response);
             })->setName('v1.GET.song');
         });
         $v1->group('/artist', function (Group $song) use ($factory) {

@@ -6,7 +6,7 @@ use JsonException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class SongHandler
+class SongReader
 {
     public function __construct(
         private MySQLSongReader $mySqlSongReader,

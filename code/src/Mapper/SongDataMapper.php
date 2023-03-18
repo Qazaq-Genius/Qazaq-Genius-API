@@ -2,6 +2,8 @@
 
 namespace QazaqGenius\LyricsApi;
 
+use QazaqGenius\Transliterator as Qazaq;
+
 class SongDataMapper
 {
     public function mapToSong(
@@ -62,7 +64,7 @@ class SongDataMapper
             $lyrics[$verse][$line] = [
                 "line_nr"       => $current_line["line_nr"],
                 "qazaq_cyr"     => $current_line["qazaq_cyr"],
-                "qazaq_lat"     => $current_line["qazaq_lat"],
+                "qazaq_lat"     => Qazaq::toLatin($current_line["qazaq_cyr"]),
                 "english"       => $current_line["english"],
                 "russian"       => $current_line["russian"],
                 "original_lang" => $current_line["original_lang"],
@@ -78,7 +80,7 @@ class SongDataMapper
         $words = [];
         foreach ($wordData as $wordArray) {
             if ($this->areThereWordsInLine($wordArray, $current_line_id)) {
-                $words[] = $this->mapWordsToLine($wordArray);
+                $words = $this->mapWordsToLine($wordArray);
             }
         }
         return $words;
@@ -96,7 +98,7 @@ class SongDataMapper
             $words[] = [
                 "word_in_line_nr" => $word["word_in_line_nr"],
                 "qazaq_cyr"       => $word["qazaq_cyr"],
-                "qazaq_lat"       => $word["qazaq_lat"],
+                "qazaq_lat"       => Qazaq::toLatin($word["qazaq_cyr"]),
                 "english"         => $word["english"],
                 "russian"         => $word["russian"],
             ];
