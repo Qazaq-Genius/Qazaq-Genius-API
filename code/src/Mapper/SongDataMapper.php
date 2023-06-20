@@ -22,6 +22,7 @@ class SongDataMapper
             'release_date'  => $songData["release_date"],
             'title_cyr'     => $songData["title_cyr"],
             'title_lat'     => $songData["title_lat"],
+            "cover_art"     => $songData["cover_art"] ?? $albumData["cover_art"] ?? null,
             'artists'       => $this->mapArtists($artistData),
             'album'         => $this->mapAlbum($albumData),
             'lyrics'        => $this->mapLyrics($lyricsData, $wordData)
