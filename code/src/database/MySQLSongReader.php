@@ -23,6 +23,10 @@ class MySQLSongReader
         $sql->execute();
         $result = $sql->fetch(PDO::FETCH_ASSOC);
 
+        if(!$result) {
+            return [];
+        }
+
         return $result;
     }
 }
