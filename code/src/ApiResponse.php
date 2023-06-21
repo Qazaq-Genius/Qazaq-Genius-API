@@ -6,7 +6,7 @@ use Slim\Psr7\Response;
 
 class ApiResponse
 {
-    public static function sucessful(Response $response, array $responseData, int $statusCode = 200): Response
+    public static function sucessful(Response $response, array $responseData = [], int $statusCode = 200): Response
     {
         $response->getBody()->write(
             json_encode(
