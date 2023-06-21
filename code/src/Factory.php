@@ -9,6 +9,15 @@ class Factory
     ) {
     }
 
+    public function createSongIdReader(): SongIdReader
+    {
+        return new SongIdReader(
+            new MySQLSongReader(
+                $this->mySqlConnector->getConnection()
+            )
+        );
+    }
+
     public function createSongReader(): SongReader
     {
         return new SongReader(

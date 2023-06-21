@@ -19,8 +19,7 @@ return static function (App $app, Factory $factory): void {
 
         //TODO: implement /songs route
         $v1->get('/songs', function (Request $request, Response $response) use ($factory) {
-            $response->getBody()->write("[50000001,50000001]");
-            return $response->withStatus(200);
+            return $factory->createSongIdReader()->handle($request, $response);
         })->setName('healtcheck');
 
         $v1->group('/song', function (Group $song) use ($factory) {
