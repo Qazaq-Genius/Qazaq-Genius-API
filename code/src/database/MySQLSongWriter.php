@@ -13,15 +13,24 @@ class MySQLSongWriter
     ) {
     }
 
-    public function writeAllSongData(
-        string $release_date,
-        string $title_cyr,
-        string $title_lat,
-        string $cover_art,
-        array $lyrics
-    )
+    public function insertAlbumToArtist(array $artistIds = null, int $albumId = null)
     {
-        return null;
+        if ($albumId === null) {
+            return false;
+        }
+
+        foreach ($artistIds as $artistId) {
+            $sql = $this->mySqlConnection->prepare('
+            INSERT AlbumArtists (album_id, artist_id)
+            VALUES (:album_id, :artist_id)
+        ');
+
+            $sql->bindValue(":album_id", $albumId);
+            $sql->bindValue(":artist_id", $artistId);
+
+           $sql->execute();
+        }
+        return true;
     }
 
     public function insertSongToArtist(array $artistIds, int $songId)
@@ -31,7 +40,6 @@ class MySQLSongWriter
             INSERT SongArtists (artist_id, song_id)
             VALUES (:artist_id, :song_id)
         ');
-
             $sql->bindValue(":artist_id", $artistId);
             $sql->bindValue(":song_id", $songId);
 

@@ -30,13 +30,17 @@ class SongWriter
         $albumId    = $this->mySQLSongWriter->insertAlbum($data["album"]);
         $songId     = $this->mySQLSongWriter->insertSong($data);
         $lyricsIds  = $this->mySQLSongWriter->insertLyrics($data["lyrics"], $songId);
+
         $this->mySQLSongWriter->insertSongToArtist($artistIds, $songId);
+
+        $artistsAddedToAlbum = $this->mySQLSongWriter->insertAlbumToArtist($artistIds, $albumId);
 
         $responseData = [
             "song_id" => $songId,
             "album_id" => $albumId,
             "lyrics_id" => $lyricsIds,
             "artists_id" => $artistIds,
+            "artists_added_to_album" => $artistsAddedToAlbum,
             "created_by" => "tolik518",
             "created" => "2023-06-21 00:00:00"
         ];
