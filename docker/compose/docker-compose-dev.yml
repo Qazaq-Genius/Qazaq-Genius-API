@@ -6,7 +6,7 @@ services:
     volumes:
       - ./../../code/public:/var/www/html/public
     ports:
-      - '80:80'
+      - '55155:80'
 
   php:
     image: qazaq_genius/lyrics_api/php:dev

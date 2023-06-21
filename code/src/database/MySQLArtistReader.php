@@ -1,18 +1,19 @@
 <?php
 
-namespace Qazaq_Genius\Lyrics_Api;
+namespace QazaqGenius\LyricsApi;
 
 use PDO;
 
 class MySQLArtistReader
 {
     public function __construct(
-        private PDO $mySQLConnection
-    ){}
+        private PDO $mySqlConnection
+    ) {
+    }
 
-    public function getArtistById(int $id): array
+    public function getArtistById(int $id):  array | false
     {
-        $sql = $this->mySQLConnection->prepare('
+        $sql = $this->mySqlConnection->prepare('
             SELECT *
              FROM Artist 
             WHERE id = :id
@@ -25,9 +26,9 @@ class MySQLArtistReader
         return $result;
     }
 
-    public function getArtistBySongId(int $songId): array
+    public function getArtistBySongId(int $songId):  array | false
     {
-        $sql = $this->mySQLConnection->prepare('
+        $sql = $this->mySqlConnection->prepare('
             SELECT *
               FROM Artist 
              INNER JOIN SongArtists
@@ -38,25 +39,6 @@ class MySQLArtistReader
         $sql->bindValue(":song_id", $songId);
         $sql->execute();
         $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-        return $result;
-    }
-
-    public function getAlbum(int|null $albumId): array
-    {
-        if ($albumId === null){
-            return [];
-        }
-
-        $sql = $this->mySQLConnection->prepare('
-            SELECT *
-              FROM Album 
-            WHERE Album.id = :album_id
-        ');
-
-        $sql->bindValue(":album_id", $albumId);
-        $sql->execute();
-        $result = $sql->fetch(PDO::FETCH_ASSOC);
 
         return $result;
     }

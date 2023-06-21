@@ -1,23 +1,44 @@
 <?php
-namespace Qazaq_Genius\Lyrics_Api;
+
+namespace QazaqGenius\LyricsApi;
 
 class Factory
 {
     public function __construct(
-        private MySQLConnector $mySQLConnector
-    ){}
+        private MySQLConnector $mySqlConnector
+    ) {
+    }
 
-    public function createSongHandler(): SongHandler
+    public function createSongReader(): SongReader
     {
-        return new SongHandler(
+        return new SongReader(
             new MySQLSongReader(
-                $this->mySQLConnector->getConnection()
+                $this->mySqlConnector->getConnection()
             ),
             new MySQLArtistReader(
-                $this->mySQLConnector->getConnection()
+                $this->mySqlConnector->getConnection()
             ),
-            new SongDataMapper(),
-            $this->createApiResponse()
+            new MySQLAlbumReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new MySQLLyricsReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new MySQLWordReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new MySQLMediaReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new SongDataMapper()
+        );
+    }
+    public function createSongWriter(): SongWriter
+    {
+        return new SongWriter(
+            new MySQLSongWriter(
+                $this->mySqlConnector->getConnection()
+            )
         );
     }
 
@@ -25,14 +46,8 @@ class Factory
     {
         return new ArtistHandler(
             new MySQLArtistReader(
-                $this->mySQLConnector->getConnection()
-            ),
-            $this->createApiResponse()
+                $this->mySqlConnector->getConnection()
+            )
         );
-    }
-
-    public function createApiResponse(): ApiResponse
-    {
-        return new ApiResponse();
     }
 }

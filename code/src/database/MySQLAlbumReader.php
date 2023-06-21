@@ -4,28 +4,28 @@ namespace QazaqGenius\LyricsApi;
 
 use PDO;
 
-class MySQLSongReader
+class MySQLAlbumReader
 {
     public function __construct(
         private PDO $mySqlConnection
     ) {
     }
 
-    public function getSongById(int $id): array | false
+    public function getAlbum(int|null $albumId):  array | false
     {
-        $sql = $this->mySqlConnection->prepare('
-            SELECT *
-              FROM Song 
-             WHERE id = :id
-        ');
-
-        $sql->bindValue(":id", $id);
-        $sql->execute();
-        $result = $sql->fetch(PDO::FETCH_ASSOC);
-
-        if(!$result) {
+        if ($albumId === null) {
             return [];
         }
+
+        $sql = $this->mySqlConnection->prepare('
+            SELECT *
+              FROM Album 
+             WHERE Album.id = :album_id
+        ');
+
+        $sql->bindValue(":album_id", $albumId);
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
 
         return $result;
     }

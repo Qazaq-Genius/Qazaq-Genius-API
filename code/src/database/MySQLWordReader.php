@@ -4,28 +4,24 @@ namespace QazaqGenius\LyricsApi;
 
 use PDO;
 
-class MySQLSongReader
+class MySQLWordReader
 {
     public function __construct(
         private PDO $mySqlConnection
     ) {
     }
 
-    public function getSongById(int $id): array | false
+    public function getWordsByLyricsId(int $lyricsId):  array | false
     {
         $sql = $this->mySqlConnection->prepare('
             SELECT *
-              FROM Song 
-             WHERE id = :id
+              FROM Words 
+             WHERE Words.lyrics_id = :lyrics_id
         ');
 
-        $sql->bindValue(":id", $id);
+        $sql->bindValue(":lyrics_id", $lyricsId);
         $sql->execute();
-        $result = $sql->fetch(PDO::FETCH_ASSOC);
-
-        if(!$result) {
-            return [];
-        }
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
     }
