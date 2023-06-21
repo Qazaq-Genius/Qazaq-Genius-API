@@ -32,7 +32,11 @@ class Factory
     }
     public function createSongWriter(): SongWriter
     {
-        return new SongWriter();
+        return new SongWriter(
+            new MySQLSongWriter(
+                $this->mySqlConnector->getConnection()
+            )
+        );
     }
 
     public function createArtistHandler(): ArtistHandler
