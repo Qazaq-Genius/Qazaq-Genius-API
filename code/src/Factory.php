@@ -27,6 +27,9 @@ class Factory
             new MySQLWordReader(
                 $this->mySqlConnector->getConnection()
             ),
+            new MySQLMediaReader(
+                $this->mySqlConnector->getConnection()
+            ),
             new SongDataMapper()
         );
     }

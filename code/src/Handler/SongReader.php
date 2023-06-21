@@ -14,6 +14,7 @@ class SongReader
         private MySQLAlbumReader $mySqlAlbumReader,
         private MySQLLyricsReader $mySqlLyricsReader,
         private MySQLWordReader $mySqlWordReader,
+        private MySQLMediaReader $mySqlMediaReader,
         private SongDataMapper $songDataMapper
     ) {
     }
@@ -38,13 +39,15 @@ class SongReader
         $albumData  = $this->mySqlAlbumReader->getAlbum($songData['album_id']);
         $lyricsData = $this->mySqlLyricsReader->getLyricsBySongId($song_id);
         $wordData   = $this->getWordsFromLyrics($lyricsData);
+        $mediaData  = $this->mySqlMediaReader->getMediaBySongId($song_id);
 
         $result = $this->songDataMapper->mapToSong(
             $songData,
             $artistData,
             $albumData,
             $lyricsData,
-            $wordData
+            $wordData,
+            $mediaData
         );
 
         return ApiResponse::sucessful($response, $result);

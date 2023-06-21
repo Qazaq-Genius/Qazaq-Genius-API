@@ -11,7 +11,8 @@ class SongDataMapper
         array $artistData,
         array $albumData,
         array $lyricsData,
-        array $wordData
+        array $wordData,
+        array $mediaData
     ): array {
         return [
             'id'            => $songData["id"],
@@ -23,10 +24,23 @@ class SongDataMapper
             'title_cyr'     => $songData["title_cyr"],
             'title_lat'     => $songData["title_lat"],
             "cover_art"     => $songData["cover_art"] ?? $albumData["cover_art"] ?? null,
+            "media"         => $this->mapMedia($mediaData),
             'artists'       => $this->mapArtists($artistData),
             'album'         => $this->mapAlbum($albumData),
             'lyrics'        => $this->mapLyrics($lyricsData, $wordData)
         ];
+    }
+
+    private function mapMedia(array $mediaData): array
+    {
+        $media = [];
+
+        foreach ($mediaData as $mediaColumn) {
+            $name = $mediaColumn["name"];
+            $media[$name] = $mediaColumn["url"];
+        }
+
+        return $media;
     }
 
     private function mapArtists(array $artistData): array
