@@ -11,7 +11,7 @@ class MySQLWordReader
     ) {
     }
 
-    public function getWordsByLyricsId(int $lyricsId): array
+    public function getWordsByLyricsId(int $lyricsId):  array | false
     {
         $sql = $this->mySqlConnection->prepare('
             SELECT *

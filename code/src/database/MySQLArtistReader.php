@@ -11,7 +11,7 @@ class MySQLArtistReader
     ) {
     }
 
-    public function getArtistById(int $id): array
+    public function getArtistById(int $id):  array | false
     {
         $sql = $this->mySqlConnection->prepare('
             SELECT *
@@ -26,7 +26,7 @@ class MySQLArtistReader
         return $result;
     }
 
-    public function getArtistBySongId(int $songId): array
+    public function getArtistBySongId(int $songId):  array | false
     {
         $sql = $this->mySqlConnection->prepare('
             SELECT *

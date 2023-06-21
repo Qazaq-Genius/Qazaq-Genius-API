@@ -11,7 +11,7 @@ class MySQLSongReader
     ) {
     }
 
-    public function getSongById(int $id): array
+    public function getSongById(int $id): array | false
     {
         $sql = $this->mySqlConnection->prepare('
             SELECT *

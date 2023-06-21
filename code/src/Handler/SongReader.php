@@ -14,8 +14,7 @@ class SongReader
         private MySQLAlbumReader $mySqlAlbumReader,
         private MySQLLyricsReader $mySqlLyricsReader,
         private MySQLWordReader $mySqlWordReader,
-        private SongDataMapper $songDataMapper,
-        private ApiResponse $apiResponse
+        private SongDataMapper $songDataMapper
     ) {
     }
 
@@ -25,16 +24,20 @@ class SongReader
     public function handle(Request $request, Response $response): Response
     {
         $song_id = $request->getAttribute('song_id');
+        if ($song_id === null || $song_id == 0) {
+            return ApiResponse::noData();
+        }
 
-        $songData   = $this->mySqlSongReader->getSongById($song_id);
+        $songData = $this->mySqlSongReader->getSongById($song_id);
+
+        if (!$songData) {
+            return ApiResponse::noData();
+        }
+
         $artistData = $this->mySqlArtistReader->getArtistBySongId($song_id);
         $albumData  = $this->mySqlAlbumReader->getAlbum($songData['album_id']);
         $lyricsData = $this->mySqlLyricsReader->getLyricsBySongId($song_id);
         $wordData   = $this->getWordsFromLyrics($lyricsData);
-
-        if (empty($songData) || empty($artistData)) {
-            return $this->apiResponse->noData();
-        }
 
         $result = $this->songDataMapper->mapToSong(
             $songData,
@@ -44,7 +47,7 @@ class SongReader
             $wordData
         );
 
-        return $this->apiResponse->sucessful($response, $result);
+        return ApiResponse::sucessful($response, $result);
     }
 
     private function getWordsFromLyrics(array $lyricsData): array

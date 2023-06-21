@@ -11,7 +11,7 @@ class MySQLAlbumReader
     ) {
     }
 
-    public function getAlbum(int|null $albumId): array
+    public function getAlbum(int|null $albumId):  array | false
     {
         if ($albumId === null) {
             return [];

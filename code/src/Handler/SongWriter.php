@@ -9,7 +9,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class SongWriter
 {
     public function __construct(
-        private ApiResponse $apiResponse
     ) {
     }
 
@@ -18,6 +17,11 @@ class SongWriter
      */
     public function handle(Request $request, Response $response): Response
     {
-        return $this->apiResponse->badData($response);
+        $data = json_decode($request->getBody(), true);
+        if ($data == null){
+            return ApiResponse::errorMissingData($response);
+        }
+
+        return ApiResponse::errorMissingData($response, $data);
     }
 }

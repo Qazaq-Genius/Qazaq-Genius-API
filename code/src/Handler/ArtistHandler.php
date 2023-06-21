@@ -10,7 +10,6 @@ class ArtistHandler
 {
     public function __construct(
         private MySQLArtistReader $mySqlArtistReader,
-        private ApiResponse $apiResponse
     ) {
     }
 
@@ -25,9 +24,9 @@ class ArtistHandler
         $songData = $this->mySqlArtistReader->getArtistById($song_id);
 
         if (empty($songData)) {
-            return $this->apiResponse->noData();
+            return ApiResponse::noData();
         }
 
-        return $this->apiResponse->sucessful($response, $songData);
+        return ApiResponse::sucessful($response, $songData);
     }
 }

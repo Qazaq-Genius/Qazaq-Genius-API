@@ -27,15 +27,12 @@ class Factory
             new MySQLWordReader(
                 $this->mySqlConnector->getConnection()
             ),
-            new SongDataMapper(),
-            $this->createApiResponse()
+            new SongDataMapper()
         );
     }
     public function createSongWriter(): SongWriter
     {
-        return new SongWriter(
-            $this->createApiResponse()
-        );
+        return new SongWriter();
     }
 
     public function createArtistHandler(): ArtistHandler
@@ -43,13 +40,7 @@ class Factory
         return new ArtistHandler(
             new MySQLArtistReader(
                 $this->mySqlConnector->getConnection()
-            ),
-            $this->createApiResponse()
+            )
         );
-    }
-
-    public function createApiResponse(): ApiResponse
-    {
-        return new ApiResponse();
     }
 }

@@ -10,6 +10,11 @@ use Slim\App;
 
 return static function (App $app, Factory $factory): void {
 
+    $app->get('/', function (Request $request, Response $response) use ($factory) {
+        $response->getBody()->write("Ok");
+        return $response->withStatus(200);
+    })->setName('healtcheck');
+
     $app->group('/api/v1', function (Group $v1) use ($factory) {
         $v1->group('/song', function (Group $song) use ($factory) {
             $song->post('', function (Request $request, Response $response) use ($factory) {
