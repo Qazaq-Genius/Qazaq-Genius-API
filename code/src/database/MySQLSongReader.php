@@ -11,6 +11,23 @@ class MySQLSongReader
     ) {
     }
 
+    public function getAllSongIDs(): array
+    {
+        $sql = $this->mySqlConnection->prepare('
+            SELECT id
+              FROM Song 
+        ');
+
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!$result) {
+            return [];
+        }
+
+        return $result;
+    }
+
     public function getSongById(int $id): array | false
     {
         $sql = $this->mySqlConnection->prepare('
