@@ -13,7 +13,32 @@ class MySQLSongWriter
     ) {
     }
 
-    public function insertAlbumToArtist(array $artistIds = null, int $albumId = null)
+    public function insertMedia($media, $songId): array
+    {
+        if ($media === null) {
+            return [];
+        }
+
+        $mediumIds = [];
+
+        foreach ($media as $name => $url) {
+            $sql = $this->mySqlConnection->prepare('
+                INSERT INTO Media (name, url, song_id)
+                VALUES (:name, :url, :song_id)
+            ');
+
+            $sql->bindValue(":name",    $name);
+            $sql->bindValue(":url",     $url);
+            $sql->bindValue(":song_id", $songId);
+
+            $sql->execute();
+            $mediumIds[] = (int) $this->mySqlConnection->lastInsertId();
+        }
+
+        return $mediumIds;
+    }
+
+    public function insertAlbumToArtist(array $artistIds = null, int $albumId = null): bool
     {
         if ($albumId === null) {
             return false;
@@ -21,9 +46,9 @@ class MySQLSongWriter
 
         foreach ($artistIds as $artistId) {
             $sql = $this->mySqlConnection->prepare('
-            INSERT AlbumArtists (album_id, artist_id)
-            VALUES (:album_id, :artist_id)
-        ');
+                INSERT INTO AlbumArtists (album_id, artist_id)
+                VALUES (:album_id, :artist_id)
+            ');
 
             $sql->bindValue(":album_id", $albumId);
             $sql->bindValue(":artist_id", $artistId);
@@ -35,11 +60,12 @@ class MySQLSongWriter
 
     public function insertSongToArtist(array $artistIds, int $songId)
     {
-        foreach ($artistIds as $artistId){
+        foreach ($artistIds as $artistId) {
             $sql = $this->mySqlConnection->prepare('
-            INSERT SongArtists (artist_id, song_id)
-            VALUES (:artist_id, :song_id)
-        ');
+                INSERT INTO SongArtists (artist_id, song_id)
+                VALUES (:artist_id, :song_id)
+            ');
+
             $sql->bindValue(":artist_id", $artistId);
             $sql->bindValue(":song_id", $songId);
 
@@ -55,7 +81,7 @@ class MySQLSongWriter
 
             foreach ($verse as $line) {
                 $sql = $this->mySqlConnection->prepare('
-                    INSERT Lyrics (verse_nr, line_nr, qazaq_cyr, qazaq_lat, english, russian, original_lang, song_id)
+                    INSERT INTO Lyrics (verse_nr, line_nr, qazaq_cyr, qazaq_lat, english, russian, original_lang, song_id)
                     VALUES (:verse_nr, :line_nr, :qazaq_cyr, :qazaq_lat, :english, :russian, :original_lang, :song_id)
                 ');
 
@@ -78,9 +104,10 @@ class MySQLSongWriter
     public function insertSong(array $song): int
     {
         $sql = $this->mySqlConnection->prepare('
-            INSERT Song (title_cyr, title_lat, release_date, cover_art)
+            INSERT INTO Song (title_cyr, title_lat, release_date, cover_art)
             VALUES (:title_cyr, :title_lat, :release_date, :cover_art)
         ');
+
         $sql->bindValue(":title_cyr",     $song["title_cyr"]);
         $sql->bindValue(":title_lat",     $song["title_lat"]);
         $sql->bindValue(":release_date", $song["release_date"]);
@@ -95,13 +122,14 @@ class MySQLSongWriter
     public function insertAlbum(array $album): ?int
     {
         if (!isset($album['id'])) {
-            if  (isset($album['name_cyr']) || isset($album['name_lat']))
+            if (isset($album['name_cyr']) || isset($album['name_lat']))
             {
                 $sql = $this->mySqlConnection->prepare('
-                        INSERT Album (name_cyr, name_lat)
-                        VALUES (:name_cyr, :name_lat)
+                    INSERT INTO Album (name_cyr, name_lat)
+                    VALUES (:name_cyr, :name_lat)
                 ');
-                $name_lat = isset($album["name_lat"]) ? $album["name_lat"] : Transliterator::toLatin($album["name_cyr"]);
+
+                $name_lat = $album["name_lat"] ?? Transliterator::toLatin($album["name_cyr"]);
                 $sql->bindValue(":name_lat", $name_lat);
                 $sql->bindValue(":name_cyr", $album["name_cyr"]);
                 $sql->execute();
@@ -129,9 +157,10 @@ class MySQLSongWriter
     {
         if (!isset($artist['id'])) {
             $sql = $this->mySqlConnection->prepare('
-                    INSERT Artist (name_cyr, name_lat)
-                    VALUES (:name_cyr, :name_lat)
-                ');
+                INSERT INTO Artist (name_cyr, name_lat)
+                VALUES (:name_cyr, :name_lat)
+            ');
+
             $sql->bindValue(":name_lat", $artist["name_lat"]);
             $sql->bindValue(":name_cyr", $artist["name_cyr"]);
             $sql->execute();
