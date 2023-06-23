@@ -7,6 +7,10 @@ use Slim\Factory\AppFactory;
 require_once('../src/configs/directories.php');
 require_once(VENDOR . 'autoload.php');
 
+//Load .env
+$env = parse_ini_file(dirname(__DIR__, 2) . '/.env');
+define("ENV", $env);
+
 //Programm
 session_start();
 $mySQLConnector = new MySQLConnector();
