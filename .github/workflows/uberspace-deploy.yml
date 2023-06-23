@@ -9,12 +9,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+      with:
+        dev: no
+        args: --profile --ignore-platform-reqs
     - uses: actions/checkout@v2
     - name: rsync deployments
       uses: burnett01/rsync-deployments@6.0.0
       with:
         switches: -avzr --delete
-        rsh: cd code && composer install
         path: /
         remote_path: /home/${{ secrets.UBERSPACE_USER }}/html/staging.r0.fyi
         remote_host: ${{ secrets.UBERSPACE_HOST }}
