@@ -13,7 +13,7 @@ jobs:
       uses: php-actions/composer@v6
       with:
         dev: no
-        args: --profile --ignore-platform-reqs
+        args: --profile --ignore-platform-reqs --working-dir=code
     - uses: actions/checkout@v2
     - name: rsync deployments
       uses: burnett01/rsync-deployments@6.0.0
