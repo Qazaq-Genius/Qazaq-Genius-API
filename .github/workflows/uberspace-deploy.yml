@@ -3,7 +3,7 @@
 on:
   push:
     branches:
-      - main
+      - 14-uberspace-deployment
 jobs:
   deploy:
     runs-on: ubuntu-latest
