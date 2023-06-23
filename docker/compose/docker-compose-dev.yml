@@ -15,6 +15,7 @@ services:
       - ./../../code:/var/www/html
     environment:
       - MYSQL_ROOT_PASSWORD=kThisIsTheInitialDatabasePass
+      - MYSQL_HOST=database
 
   database:
     image: qazaq_genius/lyrics_api/database:dev

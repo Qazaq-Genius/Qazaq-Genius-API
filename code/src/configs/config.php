@@ -1,6 +1,6 @@
 <?php
 
-define("DB_HOST", 'database');
+define("DB_HOST", getenv('MYSQL_HOST'));
 define("DB_NAME", 'qg_song_data');
 define("DB_PORT", '3306');
 define("DB_USER", 'root');
