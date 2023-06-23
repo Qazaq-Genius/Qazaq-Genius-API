@@ -1,5 +1,6 @@
 # /.github/workflows/uberspace-deploy.yml
 # Warning: deletes all files on uberspace which are not in repo, use without --delete if unsure
+name: Deploy
 on:
   push:
     branches:
@@ -9,12 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: rsync deployments
-      uses: burnett01/rsync-deployments@4.1
+    - name: Install dependencies
+      uses: php-actions/composer@v6
       with:
-        switches: -avzr --delete
+        dev: no
+        args: --profile --ignore-platform-reqs --working-dir=code
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@6.0.0
+      with:
+        switches: -avzr --delete --exclude=".env"
         path: /
-        remote_path: /home/${{ secrets.UBERSPACE_USER }}/html/staging
+        remote_path: /home/${{ secrets.UBERSPACE_USER }}/html/staging.r0.fyi
         remote_host: ${{ secrets.UBERSPACE_HOST }}
         remote_user: ${{ secrets.UBERSPACE_USER }}
         remote_key: ${{ secrets.DEPLOY_KEY_PRIVATE }}
