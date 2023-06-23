@@ -8,7 +8,11 @@ require_once('../src/configs/directories.php');
 require_once(VENDOR . 'autoload.php');
 
 //Load .env
-$env = parse_ini_file(dirname(__DIR__, 2) . '/.env');
+if (str_contains(gethostname(), ".")) {
+    $env = parse_ini_file(dirname(__DIR__, 2) . '/.env');
+} else {
+    $env = parse_ini_file(dirname(__DIR__, 1) . '/.env.local');
+}
 define("ENV", $env);
 
 //Programm
