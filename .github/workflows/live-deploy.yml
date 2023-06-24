@@ -2,6 +2,9 @@
 # Warning: deletes all files on uberspace which are not in repo, use without --delete if unsure
 name: Deploy Live
 
+on:
+  workflow_dispatch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
