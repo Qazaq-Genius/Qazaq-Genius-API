@@ -22,6 +22,12 @@ This is the implementation of the lyrics api for the Qazaq Genius website.
 4. Write your code & tests
 5. Please execute make `unit_test`, `make sniff` and `make sniffer_fix` before pushing your changes
 
+## Deployment
+There are currently 3 environments. 
+
+* Intgeration: Gets deployed on every commit
+* Staging: Gets deployed on every commit on master
+* Live: Gets deployed ony by hand
 
 ## Documentation
 
