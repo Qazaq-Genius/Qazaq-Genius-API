@@ -31,7 +31,7 @@ class ApiResponse
                 json_encode(
                     [
                         "code" => "ERROR_MISSING_DATA",
-                        "message" => "Some data is missing in the JSON data"
+                        "message" => "Data is missing in the JSON body"
                     ],
                     JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
                 )
@@ -42,7 +42,7 @@ class ApiResponse
                 json_encode(
                     [
                         "code" => "ERROR_MISSING_DATA",
-                        "message" => "$missingFieldsString is missing in the JSON data"
+                        "message" => "$missingFieldsString is missing in the JSON body"
                     ],
                     JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
                 )

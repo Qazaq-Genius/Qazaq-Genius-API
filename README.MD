@@ -1,5 +1,4 @@
 # Qazaq Genius Lyrics API
-
 This is the implementation of the lyrics api for the Qazaq Genius website.
 
 
@@ -9,6 +8,8 @@ This is the implementation of the lyrics api for the Qazaq Genius website.
 * [MySQL 8.0](https://www.mysql.com/)
 * [Docker](https://www.docker.com/get-started)
 * [Composer](https://getcomposer.org/)
+* [OpenAPI](https://spec.openapis.org/oas/v3.1.0)
+* [Swagger](https://swagger.io/)
 
 ## Developement
 0. Have [Docker](https://www.docker.com/get-started) and Make installed
@@ -30,6 +31,8 @@ There are currently 3 environments.
 * Live: Gets deployed ony by hand
 
 ## Documentation
+
+Swagger documentation of the routes: https://swagger.r0.fyi/
 
 ### Database structure
 ```mermaid
