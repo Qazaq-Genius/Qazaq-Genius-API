@@ -31,6 +31,8 @@ There are currently 3 environments.
 
 ## Documentation
 
+Swagger documentation of the routes: https://swagger.r0.fyi/
+
 ### Database structure
 ```mermaid
 ---
