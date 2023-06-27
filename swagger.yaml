@@ -8,7 +8,7 @@ externalDocs:
   description: "Github"
   url: "https://github.com/Qazaq-Genius"
 servers:
-  - url: "https://localhost:55155/api/v1"
+  - url: "http://localhost:55155/api/v1"
     description: Local
   - url: "https://{environment}.r0.fyi/api/v1"
     description: Server
@@ -361,6 +361,21 @@ paths:
           description: missing data
           content:
             application/json:
+              examples:
+                noDataSent:
+                  summary: No data was sent
+                  value:
+                    {
+                      "code": "ERROR_MISSING_DATA",
+                      "message": "Data is missing in the JSON body"
+                    }
+                someDataMissing:
+                  summary: Some data missing
+                  value:
+                    {
+                      "code": "ERROR_MISSING_DATA",
+                      "message": "release_date, title_cyr, cover_art is missing in the JSON body "
+                    }
               schema:
                 type: object
                 required:
@@ -682,8 +697,8 @@ paths:
                 	}
                 }
 
-        '400':
-          description: Invalid ID supplied
+        '204':
+          description: No song with that ID
 
 
   /artists:
