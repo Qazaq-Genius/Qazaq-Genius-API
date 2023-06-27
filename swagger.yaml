@@ -1,0 +1,718 @@
+openapi: 3.0.3
+info:
+  title: "Qazaq Genius Lyrics API 1.0"
+  description: |-
+    Qazaq Genius Lyrics API
+  version: 1.0.0
+externalDocs:
+  description: "Github"
+  url: "https://github.com/Qazaq-Genius"
+servers:
+  - url: "https://localhost:55155/api/v1"
+    description: Local
+  - url: "https://{environment}.r0.fyi/api/v1"
+    description: Server
+    variables:
+      environment:
+        default: int # Development server
+        enum:
+          - int # Development server
+          - stg # Staging server
+          - prd # Production server
+
+tags:
+  - name: "Song"
+  - name: "Artist"
+
+paths:
+  /songs:
+    get:
+      tags:
+        - Song
+      summary: "Get all songs"
+      description: "Get all song IDs that are in the DB"
+      responses:
+        '200':
+          description: "Successful"
+          content:
+            application/json:
+              example:
+                - 50000001
+                - 50000002
+                - 50000003
+                - 50000004
+              schema:
+                type: array
+                items:
+                  type: integer
+        '500':
+          description: "Internal Server Error"
+
+
+  /song:
+    post:
+      tags:
+      - Song
+      summary: Create a new Song
+      description: Create a new Song and get an response with all the created entities
+
+      requestBody:
+        required: true
+        description: Parameter description in CommonMark or HTML.
+        content:
+          application/json:
+            example:
+              {
+                 "release_date":"2023-01-16 00:00:00",
+                 "title_cyr":"Never Gonna Give You Up",
+                 "title_lat":"Never Gonna Give You Up",
+                 "cover_art":"https://i.ytimg.com/vi/HUgMWJKn2YY/hqdefault.jpg",
+                 "artists":[
+                    {
+                       "name_cyr":"Rick Astley",
+                       "name_lat":"Rick Astley"
+                    }
+                 ],
+                   "media":{
+                  "youtube":"https://www.youtube.com/watch?v=His0lJ_Yua4",
+                  "spotify":"https://open.spotify.com/album/3ijsmdTm9reCg8NWUo4PlY?referral=qazaqgenius",
+                  "other":"https://www.deezer.com/us/album/387479007"
+                },
+                 "album":{
+                    "name_cyr": "Бірің",
+                    "cover_art":"https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    "release_date": "2023-01-16 00:00:00"
+                 },
+                 "lyrics":{
+                    "1":{
+                       "1":{
+                          "line_nr":1,
+                          "qazaq_cyr":"<0>Бірің</0> бауыр, бірің <1>дос</1>",
+                          "qazaq_lat":"<0>Bırıñ</0> bauyr, bırıñ <1>dos</1>",
+                          "english":"<0>Someone</0> is a brother, someone is a <1>friend</1>",
+                          "russian":"<0>Кто-то</0> брат, кто-то <1>друг</1>",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+
+                          ]
+                       },
+                       "2":{
+                          "line_nr":2,
+                          "qazaq_cyr":"<0>Жиылсын</0> бәрі басын қос",
+                          "qazaq_lat":"<0>Jiylsyn</0> bärı basyn qos",
+                          "english":"<0>Get them</0> all together",
+                          "russian":"<0>Объедини</0> их всех во едино",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+                             {
+                                "word_in_line_nr":0,
+                                "qazaq_cyr":"жию",
+                                "qazaq_lat":"jiü",
+                                "english":"collect/unite",
+                                "russian":"собирать"
+                             }
+                          ]
+                       },
+                       "3":{
+                          "line_nr":3,
+                          "qazaq_cyr":"<0>Алыс</0>-<1>жақын</1> <2>таңдама</2>",
+                          "qazaq_lat":"<0>Alys</0>-<1>jaqyn</1> <2>tañdama</2>",
+                          "english":"<2>Don't</2> choose between them",
+                          "russian":"<2>Не выбирай</2> <0>дальнего</0> или <1>ближнего</1>",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+                             {
+                                "word_in_line_nr":0,
+                                "qazaq_cyr":"алыс",
+                                "qazaq_lat":"alys",
+                                "english":"far away",
+                                "russian":"дальний"
+                             },
+                             {
+                                "word_in_line_nr":1,
+                                "qazaq_cyr":"жакын",
+                                "qazaq_lat":"jakyn",
+                                "english":"closest",
+                                "russian":"ближний"
+                             },
+                             {
+                                "word_in_line_nr":2,
+                                "qazaq_cyr":"тандау",
+                                "qazaq_lat":"tandau",
+                                "english":"choice",
+                                "russian":"выбор"
+                             }
+                          ]
+                       },
+                       "4":{
+                          "line_nr":4,
+                          "qazaq_cyr":"<0>Бұл</0> <1>баршаға</1>",
+                          "qazaq_lat":"<0>Būl</0> <1>barşağa</1>",
+                          "english":"<0>That</0> is for <1>everyone</1>",
+                          "russian":"<0>Это</0> для <1>каждого</1>",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+                             {
+                                "word_in_line_nr":1,
+                                "qazaq_cyr":"барша",
+                                "qazaq_lat":"barşa",
+                                "english":"everyone",
+                                "russian":"каждый"
+                             }
+                          ]
+                       }
+                    },
+                    "2":{
+                       "1":{
+                          "line_nr":1,
+                          "qazaq_cyr":"Үстіне <0>киіп</0> алдымшапан (Шапан)",
+                          "qazaq_lat":"Üstıne <0>kiıp</0> aldymşapan (Şapan)",
+                          "english":"I <0>put</0> the shapan <0>on</0>",
+                          "russian":"Я <0>надел</0> шапан",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+                             {
+                                "word_in_line_nr":0,
+                                "qazaq_cyr":"кию",
+                                "qazaq_lat":"kiü",
+                                "english":"put on",
+                                "russian":"надеть"
+                             }
+                          ]
+                       },
+                       "3":{
+                          "line_nr":3,
+                          "qazaq_cyr":"<0>Көзқарас</0> өзге",
+                          "qazaq_lat":"<0>Közqaras</0> özge",
+                          "english":"We have a special <0>attitude</0>",
+                          "russian":"<0>Отношение</0> к нам особое",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+
+                          ]
+                       },
+                       "4":{
+                          "line_nr":4,
+                          "qazaq_cyr":"<0>Өзен</0> бопсарқылсын <1>береке</1> меніңеліме",
+                          "qazaq_lat":"<0>Özen</0> bopsarqylsyn <1>bereke</1> menıñelıme",
+                          "english":"Let <1>abundance</1> flow in my nation as a <0>river</0>",
+                          "russian":"Пусть <1>изобилие</1> течет в моей стране словно <0>река</0>",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+
+                          ]
+                       },
+                       "5":{
+                          "line_nr":5,
+                          "qazaq_cyr":"Сақталсын береке <0>мекенімде</0>",
+                          "qazaq_lat":"Saqtalsyn bereke <0>mekenımde</0>",
+                          "english":"Let there be peace in my <0>motherland</0>",
+                          "russian":"Пусть будет мир на <0>родной земле</0>",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+                             {
+                                "word_in_line_nr":0,
+                                "qazaq_cyr":"туған мекет",
+                                "qazaq_lat":"tuğan meket",
+                                "english":"motherland",
+                                "russian":"родная земля"
+                             }
+                          ]
+                       },
+                       "2":{
+                          "line_nr":2,
+                          "qazaq_cyr":"<0>Төгілсін</0> қымыз, <1>керек емес</1> шампан, бізге",
+                          "qazaq_lat":"<0>Tögılsın</0> qymyz, <1>kerek emes</1> şampan, bızge",
+                          "english":"Let the kymyz <0>flow</0>, we <1>don't need</1> champagne",
+                          "russian":"Пусть <0>льется/0> кымыз, нам <1>не нужно</1> шампанское",
+                          "original_lang":"qazaq_cyr",
+                          "words":[
+
+                          ]
+                       }
+                    }
+                 }
+              }
+
+            schema:
+              required:
+                - release_date
+              type: object
+              properties:
+                release_date:
+                  type: string
+                  format: "YYYY-MM-DD H:i:s"
+                title_cyr:
+                  type: string
+                title_lat:
+                  type: string
+                cover_art:
+                  type: string
+                artists:
+                 type: array
+                 items:
+                   type: object
+                   properties:
+                     name_cyr:
+                       type: string
+                     name_lat:
+                       type: string
+                media:
+                  type: object
+                  properties:
+                    youtube:
+                      type: string
+                    spotify:
+                      type: string
+                    other:
+                      type: string
+                album:
+                  type: object
+                  properties:
+                    name_cyr:
+                      type: string
+                    cover_art:
+                      type: string
+                    release_date:
+                      type: string
+                      format: "YYYY-MM-DD H:i:s"
+                lyrics:
+                  type: object
+                  properties:
+                    verse:
+                      type: object
+                      properties:
+                        line:
+                          type: object
+                          properties:
+                            line_nr:
+                              type: integer
+                            qazaq_cyr:
+                              type: string
+                            qazaq_lat:
+                              type: string
+                            english:
+                              type: string
+                            russian:
+                              type: string
+                            original_lang:
+                              type: string
+
+
+      responses:
+        '201':
+          description: Song created
+          content:
+            application/json:
+              example:
+                {
+                  "song_id": 50000048,
+                  "album_id": 10000043,
+                  "lyrics_id": [
+                    30000226,
+                    30000227,
+                    30000228,
+                    30000229,
+                    30000230,
+                    30000231,
+                    30000232,
+                    30000233,
+                    30000234
+                  ],
+                  "artists_id": [
+                    20000068
+                  ],
+                  "media_id": [
+                    40000026,
+                    40000027,
+                    40000028
+                  ],
+                  "artists_added_to_album": true,
+                  "created_by": "tolik518",
+                  "created": "2023-06-21 00:00:00"
+                }
+              schema:
+                type: object
+                properties:
+                  song_id:
+                    type: integer
+                  album_id:
+                    type: integer
+                  lyrics_id:
+                    type: array
+                    items:
+                      type: integer
+                  artists_id:
+                    type: array
+                    items:
+                      type: integer
+                  media_id:
+                    type: array
+                    items:
+                      type: integer
+                  artists_added_to_album:
+                    type: boolean
+                  created_by:
+                    type: string
+                  created:
+                    type: string
+                    format: "YYYY-MM-DD H:i:s"
+        '400':
+          description: missing data
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - userName
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+
+
+  /song/{songId}:
+    get:
+      tags:
+        - Song
+      summary: Find Song by ID
+      description: Returns a single Song
+      parameters:
+        - name: songId
+          in: path
+          description: ID of Song to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                 id:
+                   type: integer
+                 created_by:
+                   type: string
+                 modified_by:
+                   type: string
+                 created:
+                   type: string
+                   format: "YYYY-MM-DD H:i:s"
+                 released:
+                   type: string
+                   format: "YYYY-MM-DD H:i:s"
+                 release_date:
+                   type: string
+                   format: "YYYY-MM-DD H:i:s"
+                 title_cyr:
+                   type: string
+                 title_lat:
+                   type: string
+                 cover_art:
+                   type: string
+                 artists:
+                   type: array
+                   items:
+                     type: object
+                     properties:
+                       id:
+                         type: string
+                       name_cyr:
+                         type: string
+                       name_lat:
+                         type: string
+                 media:
+                   type: object
+                   properties:
+                     youtube:
+                       type: string
+                     spotify:
+                       type: string
+                     other:
+                       type: string
+                 album:
+                   type: object
+                   properties:
+                     id:
+                       type: integer
+                     name_cyr:
+                       type: string
+                     cover_art:
+                       type: string
+                     release_date:
+                       type: string
+                       format: "YYYY-MM-DD H:i:s"
+                 lyrics:
+                   type: object
+                   properties:
+                     verse:
+                       type: object
+                       properties:
+                         line:
+                           type: object
+                           properties:
+                             line_nr:
+                               type: integer
+                             qazaq_cyr:
+                               type: string
+                             qazaq_lat:
+                               type: string
+                             english:
+                               type: string
+                             russian:
+                               type: string
+                             original_lang:
+                               type: string
+                             words:
+                               type: array
+                               items:
+                                 type: object
+                                 properties:
+                                  word_in_line_nr:
+                                    type: integer
+                                  qazaq_cyr:
+                                    type: string
+                                  qazaq_lat:
+                                    type: string
+                                  english:
+                                    type: string
+                                  russian:
+                                    type: string
+
+              example:
+                {
+                	"id": 50000001,
+                	"created_by": null,
+                	"modified_by": null,
+                	"created": "2023-03-07 11:08:50",
+                	"modified": "2023-03-07 11:08:50",
+                	"release_date": "2022-12-23 00:00:00",
+                	"title_cyr": "Сеніммен INT",
+                	"title_lat": "Senimmen",
+                	"cover_art": "https://i.ytimg.com/vi/His0lJ_Yua4/maxresdefault.jpg",
+                	"media": {
+                		"Youtube": "https: //www.youtube.com/watch?v=His0lJ_Yua4",
+                		"Spotify": "https: //open.spotify.com/album/3ijsmdTm9reCg8NWUo4PlY?referral=qazaqgenius",
+                		"Deezer": "https: //www.deezer.com/us/album/387479007"
+                	},
+                	"artists": [
+                		{
+                			"id": 20000001,
+                			"name_cyr": "Молданазар",
+                			"name_lat": "Moldanazar"
+                		},
+                		{
+                			"id": 20000002,
+                			"name_cyr": "Aldiyar",
+                			"name_lat": "Aldiyar"
+                		},
+                		{
+                			"id": 20000003,
+                			"name_cyr": "Darkhan Juzz",
+                			"name_lat": "Darkhan Juzz"
+                		},
+                		{
+                			"id": 20000004,
+                			"name_cyr": "Ayau",
+                			"name_lat": "Ayau"
+                		},
+                		{
+                			"id": 20000005,
+                			"name_cyr": "Dequine",
+                			"name_lat": "Dequine"
+                		},
+                		{
+                			"id": 20000006,
+                			"name_cyr": "De lacure",
+                			"name_lat": "De lacure"
+                		}
+                	],
+                	"album": {
+                		"id": null,
+                		"name_cyr": null,
+                		"name_lat": null,
+                		"cover_art": null,
+                		"release_date": null
+                	},
+                	"lyrics": {
+                		"1": {
+                			"1": {
+                				"line_nr": 1,
+                				"qazaq_cyr": "<0>Бірің</0> бауыр, бірің <1>дос</1>",
+                				"qazaq_lat": "<0>Bırıñ</0> bauyr, bırıñ <1>dos</1>",
+                				"english": "<0>Someone</0> is a brother, someone is a <1>friend</1>",
+                				"russian": "<0>Кто-то</0> брат, кто-то <1>друг</1>",
+                				"original_lang": "qazaq_cyr",
+                				"words": []
+                			},
+                			"2": {
+                				"line_nr": 2,
+                				"qazaq_cyr": "<0>Жиылсын</0> бәрі басын қос",
+                				"qazaq_lat": "<0>Jiylsyn</0> bärı basyn qos",
+                				"english": "<0>Get them</0> all together",
+                				"russian": "<0>Объедини</0> их всех во едино",
+                				"original_lang": "qazaq_cyr",
+                				"words": [
+                					{
+                						"word_in_line_nr": 0,
+                						"qazaq_cyr": "жию",
+                						"qazaq_lat": "jiü",
+                						"english": "collect/unite",
+                						"russian": "собирать"
+                					}
+                				]
+                			},
+                			"3": {
+                				"line_nr": 3,
+                				"qazaq_cyr": "<0>Алыс</0>-<1>жақын</1> <2>таңдама</2>",
+                				"qazaq_lat": "<0>Alys</0>-<1>jaqyn</1> <2>tañdama</2>",
+                				"english": "<2>Don't</2> choose between them",
+                				"russian": "<2>Не выбирай</2> <0>дальнего</0> или <1>ближнего</1>",
+                				"original_lang": "qazaq_cyr",
+                				"words": [
+                					{
+                						"word_in_line_nr": 0,
+                						"qazaq_cyr": "алыс",
+                						"qazaq_lat": "alys",
+                						"english": "far away",
+                						"russian": "дальний"
+                					},
+                					{
+                						"word_in_line_nr": 1,
+                						"qazaq_cyr": "жакын",
+                						"qazaq_lat": "jakyn",
+                						"english": "closest",
+                						"russian": "ближний"
+                					},
+                					{
+                						"word_in_line_nr": 2,
+                						"qazaq_cyr": "тандау",
+                						"qazaq_lat": "tandau",
+                						"english": "choice",
+                						"russian": "выбор"
+                					}
+                				]
+                			},
+                			"4": {
+                				"line_nr": 4,
+                				"qazaq_cyr": "<0>Бұл</0> <1>баршаға</1>",
+                				"qazaq_lat": "<0>Būl</0> <1>barşağa</1>",
+                				"english": "<0>That</0> is for <1>everyone</1>",
+                				"russian": "<0>Это</0> для <1>каждого</1>",
+                				"original_lang": "qazaq_cyr",
+                				"words": [
+                					{
+                						"word_in_line_nr": 1,
+                						"qazaq_cyr": "барша",
+                						"qazaq_lat": "barşa",
+                						"english": "everyone",
+                						"russian": "каждый"
+                					}
+                				]
+                			}
+                		},
+                		"2": {
+                			"1": {
+                				"line_nr": 1,
+                				"qazaq_cyr": "Үстіне <0>киіп</0> алдымшапан (Шапан)",
+                				"qazaq_lat": "Üstıne <0>kiıp</0> aldymşapan (Şapan)",
+                				"english": "I <0>put</0> the shapan <0>on</0>",
+                				"russian": "Я <0>надел</0> шапан",
+                				"original_lang": "qazaq_cyr",
+                				"words": [
+                					{
+                						"word_in_line_nr": 0,
+                						"qazaq_cyr": "кию",
+                						"qazaq_lat": "kiü",
+                						"english": "put on",
+                						"russian": "надеть"
+                					}
+                				]
+                			},
+                			"3": {
+                				"line_nr": 3,
+                				"qazaq_cyr": "<0>Көзқарас</0> өзге",
+                				"qazaq_lat": "<0>Közqaras</0> özge",
+                				"english": "We have a special <0>attitude</0>",
+                				"russian": "<0>Отношение</0> к нам особое",
+                				"original_lang": "qazaq_cyr",
+                				"words": []
+                			},
+                			"4": {
+                				"line_nr": 4,
+                				"qazaq_cyr": "<0>Өзен</0> бопсарқылсын <1>береке</1> меніңеліме",
+                				"qazaq_lat": "<0>Özen</0> bopsarqylsyn <1>bereke</1> menıñelıme",
+                				"english": "Let <1>abundance</1> flow in my nation as a <0>river</0>",
+                				"russian": "Пусть <1>изобилие</1> течет в моей стране словно <0>река</0>",
+                				"original_lang": "qazaq_cyr",
+                				"words": []
+                			},
+                			"5": {
+                				"line_nr": 5,
+                				"qazaq_cyr": "Сақталсын береке <0>мекенімде</0>",
+                				"qazaq_lat": "Saqtalsyn bereke <0>mekenımde</0>",
+                				"english": "Let there be peace in my <0>motherland</0>",
+                				"russian": "Пусть будет мир на <0>родной земле</0>",
+                				"original_lang": "qazaq_cyr",
+                				"words": [
+                					{
+                						"word_in_line_nr": 0,
+                						"qazaq_cyr": "туған мекет",
+                						"qazaq_lat": "tuğan meket",
+                						"english": "motherland",
+                						"russian": "родная земля"
+                					}
+                				]
+                			},
+                			"2": {
+                				"line_nr": 2,
+                				"qazaq_cyr": "<0>Төгілсін</0> қымыз, <1>керек емес</1> шампан, бізге",
+                				"qazaq_lat": "<0>Tögılsın</0> qymyz, <1>kerek emes</1> şampan, bızge",
+                				"english": "Let the kymyz <0>flow</0>, we <1>don't need</1> champagne",
+                				"russian": "Пусть <0>льется</0> кымыз, нам <1>не нужно</1> шампанское",
+                				"original_lang": "qazaq_cyr",
+                				"words": []
+                			}
+                		}
+                	}
+                }
+
+        '400':
+          description: Invalid ID supplied
+
+
+  /artists:
+    get:
+      tags:
+        - Artist
+      summary: "[NOT IMPLEMENTED] Get all Artists"
+      description: "Get all artists that are in the DB"
+      responses:
+        '200':
+          description: "Successful"
+          content:
+            application/json:
+              example:
+                - 20000001
+                - 20000002
+                - 20000003
+                - 20000003
+                - 20000004
+                - 20000005
+                - 20000006
+                - 20000007
+                - 20000008
+                - 20000009
+                - 20000010
+                - 20000011
+              schema:
+                type: array
+                items:
+                  type: integer
+        '500':
+          description: "Internal Server Error"
