@@ -119,30 +119,57 @@ class MySQLSongWriter
         return $songId;
     }
 
-    public function insertAlbum(array $album): ?int
+    public function insertAlbum(array $album, array $artistIds): ?int
     {
-        if (!isset($album['id'])) {
-            if (isset($album['name_cyr']) || isset($album['name_lat']))
-            {
-                $sql = $this->mySqlConnection->prepare('
-                    INSERT INTO Album (name_cyr, name_lat)
-                    VALUES (:name_cyr, :name_lat)
-                ');
+        if (isset($album['id'])) {
+            $albumId = (int)$album['id'];
+        } else if (isset($album['name_cyr']) || isset($album['name_lat'])) {
 
-                $name_lat = $album["name_lat"] ?? Transliterator::toLatin($album["name_cyr"]);
-                $sql->bindValue(":name_lat", $name_lat);
-                $sql->bindValue(":name_cyr", $album["name_cyr"]);
-                $sql->execute();
-                $albumId = (int) $this->mySqlConnection->lastInsertId();
-            }
-            else {
-                $albumId = null;
-            }
+            /*$albumId = $this->getAlbumIdIfExist($album, $artistIds);*/
+
+            $sql = $this->mySqlConnection->prepare('
+                INSERT INTO Album (name_cyr, name_lat)
+                VALUES (:name_cyr, :name_lat)
+            ');
+
+            $name_lat = $album["name_lat"] ?? Transliterator::toLatin($album["name_cyr"]);
+            $sql->bindValue(":name_lat", $name_lat);
+            $sql->bindValue(":name_cyr", $album["name_cyr"]);
+            $sql->execute();
+            $albumId = (int)$this->mySqlConnection->lastInsertId();
         } else {
-            $albumId = (int) $album['id'];
+            $albumId = null;
         }
+
         return $albumId;
     }
+    /*
+    private function getAlbumIdIfExist(array $album, array $artistIds): ?int
+    {
+        $sql = $this->mySqlConnection->prepare('
+            SELECT Album.id
+              FROM Artist 
+              INNER JOIN AlbumArtists
+                      ON Artist.id = AlbumArtists.artist_id
+              INNER JOIN Album
+                      ON Artist.id = Album.main_artist_id
+            WHERE (Artist.id IN (:artist_id) AND Album.name_cyr = :album_name_cyr)
+               OR (Artist.id IN (:artist_id) AND Album.name_lat = :album_name_lat)
+        ');
+
+        $album_name_lat = $album["name_lat"] ?? Transliterator::toLatin($album["name_cyr"]);
+
+        $sql->bindValue(":artist_id", $artistIds);
+        $sql->bindValue(":album_name_cyr", $album["name_cyr"]);
+        $sql->bindValue(":album_name_lat", $album_name_lat);
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        var_dump($result);
+        die();
+        return $result[0]["id"] ?? null;
+    }*/
+
 
     public function insertArtists(array $artists): array
     {
@@ -153,22 +180,41 @@ class MySQLSongWriter
         return $artistIds;
     }
 
-    private function insertArtistAndGetID(mixed $artist): int
+    private function insertArtistAndGetID(array $artist): int
     {
         if (!isset($artist['id'])) {
-            $sql = $this->mySqlConnection->prepare('
-                INSERT INTO Artist (name_cyr, name_lat)
-                VALUES (:name_cyr, :name_lat)
-            ');
+            $artistId = $this->getArtistIdIfExist($artist);
+            if(!$artistId) {
+                $sql = $this->mySqlConnection->prepare('
+                    INSERT INTO Artist (name_cyr, name_lat)
+                    VALUES (:name_cyr, :name_lat)
+                ');
 
-            $sql->bindValue(":name_lat", $artist["name_lat"]);
-            $sql->bindValue(":name_cyr", $artist["name_cyr"]);
-            $sql->execute();
-            $artistId = (int) $this->mySqlConnection->lastInsertId();
+                $sql->bindValue(":name_lat", $artist["name_lat"]);
+                $sql->bindValue(":name_cyr", $artist["name_cyr"]);
+                $sql->execute();
+                $artistId = (int) $this->mySqlConnection->lastInsertId();
+            }
         } else {
             $artistId = (int) $artist['id'];
         }
         return $artistId;
+    }
+
+    private function getArtistIdIfExist(array $artist): ?int
+    {
+        $sql = $this->mySqlConnection->prepare('
+            SELECT id
+              FROM Artist 
+            WHERE Artist.name_cyr = :name_cyr OR Artist.name_lat = :name_lat
+        ');
+
+        $sql->bindValue(":name_cyr", $artist["name_cyr"]);
+        $sql->bindValue(":name_lat", $artist["name_lat"]);
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result[0]["id"] ?? null;
     }
 
 }

@@ -17,7 +17,6 @@ return static function (App $app, Factory $factory): void {
 
     $app->group('/api/v1', function (Group $v1) use ($factory) {
 
-        //TODO: implement /songs route
         $v1->get('/songs', function (Request $request, Response $response) use ($factory) {
             return $factory->createSongIdReader()->handle($request, $response);
         })->setName('healtcheck');
@@ -31,9 +30,17 @@ return static function (App $app, Factory $factory): void {
             })->setName('v1.GET.song');
         });
 
+        //TODO: Implement
         $v1->group('/artist', function (Group $song) use ($factory) {
             $song->get('/{artist_id:\d+}', function (Request $request, Response $response) use ($factory) {
                 return $factory->createArtistHandler()->handle($request, $response);
+            })->setName('v1.GET.artist');
+        });
+
+        //TODO: Implement
+        $v1->group('/album', function (Group $song) use ($factory) {
+            $song->get('/{artist_id:\d+}', function (Request $request, Response $response) use ($factory) {
+                return $response;
             })->setName('v1.GET.artist');
         });
     });

@@ -27,7 +27,7 @@ class SongWriter
         }
 
         $artistIds  = $this->mySQLSongWriter->insertArtists($data["artists"]);
-        $albumId    = $this->mySQLSongWriter->insertAlbum($data["album"]);
+        $albumId    = $this->mySQLSongWriter->insertAlbum($data["album"], $artistIds);
         $songId     = $this->mySQLSongWriter->insertSong($data);
 
         $mediaIds   = $this->mySQLSongWriter->insertMedia($data["media"], $songId);
