@@ -14,13 +14,17 @@ class ApiResponse
                 JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
             )
         );
-        return $response->withStatus($statusCode)->withHeader('Content-Type', 'application/json');
+        return $response->withStatus($statusCode)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     public static function noData(): Response
     {
         $response = new Response();
-        return $response->withStatus(204)->withHeader('Content-Type', 'application/json');
+        return $response->withStatus(204)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     public static function errorMissingData(Response $response, array $missingFields = []): Response
@@ -49,6 +53,8 @@ class ApiResponse
             );
         }
 
-        return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        return $response->withStatus(400)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
     }
 }
