@@ -27,8 +27,67 @@ class ApiResponse
             ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
-    public static function errorMissingData(Response $response, array $missingFields = []): Response
+    public static function errorNotAuthorized(): Response
     {
+        $response = new Response();
+
+        $response->getBody()->write(
+            json_encode(
+                [
+                    "code" => "ERROR_NOT_AUTHORIZED",
+                    "message" => "You're not authorized to access that ressource"
+                ],
+                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+            )
+        );
+
+        return $response->withStatus(403)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
+    }
+
+    public static function errorMissingAuthBearer(): Response
+    {
+        $response = new Response();
+
+        $response->getBody()->write(
+            json_encode(
+                [
+                    "code" => "ERROR_MISSING_AUTH",
+                    "message" => "Authorization Bearer is missing from header or is malformed"
+                ],
+                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+            )
+        );
+
+        return $response->withStatus(401)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
+    }
+
+    public static function errorMissingAuth(): Response
+    {
+        $response = new Response();
+
+        $response->getBody()->write(
+            json_encode(
+                [
+                    "code" => "ERROR_MISSING_AUTH",
+                    "message" => "Authorization is missing from header"
+                ],
+                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+            )
+        );
+
+        return $response->withStatus(401)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
+    }
+
+    public static function errorMissingData(array $missingFields = []): Response
+    {
+        $response = new Response();
+
         if (empty($missingFields))
         {
             $response->getBody()->write(

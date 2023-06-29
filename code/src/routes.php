@@ -43,5 +43,5 @@ return static function (App $app, Factory $factory): void {
                 return $response;
             })->setName('v1.GET.artist');
         });
-    });
+    })->addMiddleware($factory->createAuthMiddleware());
 };
