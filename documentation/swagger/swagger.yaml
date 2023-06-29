@@ -20,6 +20,9 @@ servers:
           - stg # Staging server
           - prd # Production server
 
+security:
+  - bearerAuth: []
+
 tags:
   - name: "Song"
   - name: "Artist"
@@ -45,6 +48,10 @@ paths:
                 type: array
                 items:
                   type: integer
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           description: "Internal Server Error"
 
@@ -385,6 +392,12 @@ paths:
                     type: string
                   message:
                     type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          description: "Internal Server Error"
 
 
   /song/{songId}:
@@ -699,6 +712,12 @@ paths:
 
         '204':
           description: No song with that ID
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          description: "Internal Server Error"
 
 
   /artists:
@@ -729,5 +748,30 @@ paths:
                 type: array
                 items:
                   type: integer
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           description: "Internal Server Error"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing
+      content:
+        application/json:
+          example:
+           {"code":"ERROR_MISSING_AUTH","message":"Authorization is missing from header"}
+    ForbiddenError:
+      description: Forbidden, no access
+      content:
+        application/json:
+          example:
+           {"code":"ERROR_NOT_AUTHORIZED","message":"You're not authorized to access that ressource"}
