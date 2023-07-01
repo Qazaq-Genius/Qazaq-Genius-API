@@ -109,7 +109,7 @@ class MySQLSongWriter
         ');
 
         $sql->bindValue(":title_cyr",     $song["title_cyr"]);
-        $sql->bindValue(":title_lat",     $song["title_lat"]);
+        $sql->bindValue(":title_lat",     $song["title_lat"] ?? Transliterator::toLatin($song["title_lat"]));
         $sql->bindValue(":release_date", $song["release_date"]);
         $sql->bindValue(":cover_art",    $song["cover_art"]);
 
@@ -190,8 +190,8 @@ class MySQLSongWriter
                     VALUES (:name_cyr, :name_lat)
                 ');
 
-                $sql->bindValue(":name_lat", $artist["name_lat"]);
                 $sql->bindValue(":name_cyr", $artist["name_cyr"]);
+                $sql->bindValue(":name_lat", $artist["name_lat"] ?? Transliterator::toLatin($artist["name_cyr"]));
                 $sql->execute();
                 $artistId = (int) $this->mySqlConnection->lastInsertId();
             }
@@ -210,7 +210,7 @@ class MySQLSongWriter
         ');
 
         $sql->bindValue(":name_cyr", $artist["name_cyr"]);
-        $sql->bindValue(":name_lat", $artist["name_lat"]);
+        $sql->bindValue(":name_lat", $artist["name_lat"] ?? Transliterator::toLatin($artist["name_cyr"]));
         $sql->execute();
         $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
