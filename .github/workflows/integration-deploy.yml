@@ -1,6 +1,6 @@
 # /.github/workflows/integration-deploy.yml
 # Warning: deletes all files on uberspace which are not in repo, use without --delete if unsure
-name: Deploy integration
+name: Deploy Integration
 on:
   push
 

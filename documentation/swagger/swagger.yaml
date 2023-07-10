@@ -20,6 +20,9 @@ servers:
           - stg # Staging server
           - prd # Production server
 
+security:
+  - bearerAuth: []
+
 tags:
   - name: "Song"
   - name: "Artist"
@@ -45,6 +48,10 @@ paths:
                 type: array
                 items:
                   type: integer
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           description: "Internal Server Error"
 
@@ -53,12 +60,10 @@ paths:
     post:
       tags:
       - Song
-      summary: Create a new Song
-      description: Create a new Song and get an response with all the created entities
-
+      summary: "Create a new Song"
+      description: "Create a new Song and get an response with all the created entities"
       requestBody:
         required: true
-        description: Parameter description in CommonMark or HTML.
         content:
           application/json:
             example:
@@ -358,19 +363,19 @@ paths:
                     type: string
                     format: "YYYY-MM-DD H:i:s"
         '400':
-          description: missing data
+          description: "missing data"
           content:
             application/json:
               examples:
                 noDataSent:
-                  summary: No data was sent
+                  summary: "No data was sent"
                   value:
                     {
                       "code": "ERROR_MISSING_DATA",
                       "message": "Data is missing in the JSON body"
                     }
                 someDataMissing:
-                  summary: Some data missing
+                  summary: "Some data missing"
                   value:
                     {
                       "code": "ERROR_MISSING_DATA",
@@ -385,25 +390,30 @@ paths:
                     type: string
                   message:
                     type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          description: "Internal Server Error"
 
 
   /song/{songId}:
     get:
       tags:
         - Song
-      summary: Find Song by ID
-      description: Returns a single Song
+      summary: "Find Song by ID"
+      description: "Returns a single Song"
       parameters:
         - name: songId
           in: path
-          description: ID of Song to return
+          description: "ID of Song to return"
           required: true
           schema:
             type: integer
-            format: int64
       responses:
         '200':
-          description: successful operation
+          description: "Successful"
           content:
             application/json:
               schema:
@@ -698,8 +708,49 @@ paths:
                 }
 
         '204':
-          description: No song with that ID
+          description: "No song with that ID"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          description: "Internal Server Error"
 
+    patch:
+      tags:
+        - Song
+      summary: "[NOT IMPLEMENTED] Update Song by ID"
+      description: "Returns a single Song"
+      parameters:
+        - name: songId
+          in: path
+          description: "ID of Song to return"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Ressource was updated"
+        '204':
+          description: "No song with that ID"
+
+    delete:
+      tags:
+        - Song
+      summary: "[NOT IMPLEMENTED] Delete Song by ID"
+      description: "Delete a Song entirely"
+      parameters:
+        - name: songId
+          in: path
+          description: "ID of the Song you want to delete"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Ressource was deleted"
+        '204':
+          description: "No song with that ID. Already deleted?"
 
   /artists:
     get:
@@ -729,5 +780,30 @@ paths:
                 type: array
                 items:
                   type: integer
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           description: "Internal Server Error"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: "Access token is missing"
+      content:
+        application/json:
+          example:
+           {"code":"ERROR_MISSING_AUTH","message":"Authorization is missing from header"}
+    ForbiddenError:
+      description: "Forbidden, no access"
+      content:
+        application/json:
+          example:
+           {"code":"ERROR_NOT_AUTHORIZED","message":"You're not authorized to access that ressource"}

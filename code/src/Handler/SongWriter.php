@@ -18,16 +18,14 @@ class SongWriter
      */
     public function handle(Request $request, Response $response): Response
     {
-
         $data = json_decode($request->getBody(), true);
 
-
-        if ($data == null){
-            return ApiResponse::errorMissingData($response);
+        if ($data === null) {
+            return ApiResponse::errorMissingData();
         }
 
         $artistIds  = $this->mySQLSongWriter->insertArtists($data["artists"]);
-        $albumId    = $this->mySQLSongWriter->insertAlbum($data["album"]);
+        $albumId    = $this->mySQLSongWriter->insertAlbum($data["album"], $artistIds);
         $songId     = $this->mySQLSongWriter->insertSong($data);
 
         $mediaIds   = $this->mySQLSongWriter->insertMedia($data["media"], $songId);

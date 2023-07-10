@@ -9,6 +9,11 @@ class Factory
     ) {
     }
 
+    public function createAuthMiddleware(): AuthMiddleware
+    {
+        return new AuthMiddleware();
+    }
+
     public function createSongIdReader(): SongIdReader
     {
         return new SongIdReader(
