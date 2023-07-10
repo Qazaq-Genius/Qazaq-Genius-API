@@ -32,22 +32,171 @@ paths:
     get:
       tags:
         - Song
-      summary: "Get all songs"
+      summary: "[NOT IMPLEMENTED] Get all songs fitting the keyword"
+      description: "Get all songs that are in the DB that fit the criteria"
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          required: true
+          example: "Сеніммен"
+          description: "Search string of the songs you want to get"
+      responses:
+        '200':
+          description: "Successful"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    release_date:
+                      type: string
+                      format: "YYYY-MM-DD H:i:s"
+                    title_cyr:
+                      type: string
+                    title_lat:
+                      type: string
+                    cover_art:
+                      type: string
+                    artists:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         name_cyr:
+                          type: string
+                         name_lat:
+                          type: string
+                    album:
+                      type: object
+                      properties:
+                        name_cyr:
+                          type: string
+                        cover_art:
+                          type: string
+                        release_date:
+                          type: string
+                          format: "YYYY-MM-DD H:i:s"
+              examples:
+                songsFound:
+                  summary: "Results found"
+                  value:
+                    [
+                      {
+                        "id": 50000117,
+                        "release_date":"1987-01-16 00:00:00",
+                        "title_cyr":"Never Gonna Give You Up",
+                        "title_lat":"Never Gonna Give You Up",
+                        "cover_art":"https://i.ytimg.com/vi/HUgMWJKn2YY/hqdefault.jpg",
+                        "artists":[
+                          {
+                            "name_cyr":"Rick Astley",
+                            "name_lat":"Rick Astley"
+                          }
+                        ],
+                        "album":{
+                          "name_cyr": "Whenever You Need Somebody",
+                          "cover_art":"https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                          "release_date": "1987-01-16 00:00:00"
+                        }
+                      },
+                      {
+                        "id": 50002351,
+                        "release_date":"1976-02-26 00:00:00",
+                        "title_cyr":"Бәрінен де сен сұлу",
+                        "title_lat":"Bärınen de sen sūlu",
+                        "cover_art":"https://i.ytimg.com/vi/HUgMWJKn2YY/hqdefault.jpg",
+                        "artists":[
+                          {
+                            "name_cyr":"Дос-Мұқасан",
+                            "name_lat":"Dos-Muqasan"
+                          }
+                        ],
+                        "album":{
+                          "name_cyr": null,
+                          "cover_art": null,
+                          "release_date": null
+                        }
+                      },
+                      {
+                        "id": 50009785,
+                        "release_date":"2022-12-23 00:00:00",
+                        "title_cyr":"Сеніммен",
+                        "title_lat":"Senimmen",
+                        "cover_art":"https://i.ytimg.com/vi/HUgMWJKn2YY/hqdefault.jpg",
+                        "artists":[
+                          {
+                            "name_cyr":"Молданазар",
+                            "name_lat":"Moldanazar"
+                          },
+                          {
+                            "name_cyr":"Aldiyar",
+                            "name_lat":"Aldiyar"
+                          },
+                          {
+                            "name_cyr":"Darkhan Juzz",
+                            "name_lat":"Darkhan Juzz"
+                          },
+                          {
+                            "name_cyr":"Ayau",
+                            "name_lat":"Ayau"
+                          },
+                          {
+                            "name_cyr":"Dequine",
+                            "name_lat":"Dequine"
+                          },
+                          {
+                            "name_cyr":"De lacure",
+                            "name_lat":"De lacure"
+                          },
+                        ],
+                        "album":{
+                          "name_cyr": null,
+                          "cover_art": null,
+                          "release_date": null
+                        }
+                      }
+                    ]
+                NoSongsFound:
+                  summary: "No results"
+                  value: []
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          description: "Internal Server Error"
+
+  /songs/id:
+    get:
+      tags:
+        - Song
+      summary: "Get only the IDs of all songs"
       description: "Get all song IDs that are in the DB"
       responses:
         '200':
           description: "Successful"
           content:
             application/json:
-              example:
-                - 50000001
-                - 50000002
-                - 50000003
-                - 50000004
+              examples:
+                onlyIds:
+                  summary: "Only IDs"
+                  value:
+                  - 50000001
+                  - 50000002
+                  - 50000003
+                  - 50000004
               schema:
                 type: array
                 items:
                   type: integer
+
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -68,27 +217,27 @@ paths:
           application/json:
             example:
               {
-                 "release_date":"2023-01-16 00:00:00",
-                 "title_cyr":"Never Gonna Give You Up",
-                 "title_lat":"Never Gonna Give You Up",
-                 "cover_art":"https://i.ytimg.com/vi/HUgMWJKn2YY/hqdefault.jpg",
-                 "artists":[
-                    {
-                       "name_cyr":"Rick Astley",
-                       "name_lat":"Rick Astley"
-                    }
-                 ],
-                   "media":{
+                "release_date":"2023-01-16 00:00:00",
+                "title_cyr":"Never Gonna Give You Up",
+                "title_lat":"Never Gonna Give You Up",
+                "cover_art":"https://i.ytimg.com/vi/HUgMWJKn2YY/hqdefault.jpg",
+                "artists":[
+                  {
+                    "name_cyr":"Rick Astley",
+                    "name_lat":"Rick Astley"
+                  }
+                ],
+                "media":{
                   "youtube":"https://www.youtube.com/watch?v=His0lJ_Yua4",
                   "spotify":"https://open.spotify.com/album/3ijsmdTm9reCg8NWUo4PlY?referral=qazaqgenius",
                   "other":"https://www.deezer.com/us/album/387479007"
                 },
-                 "album":{
-                    "name_cyr": "Бірің",
-                    "cover_art":"https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                "album":{
+                  "name_cyr": "Бірің",
+                  "cover_art":"https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                     "release_date": "2023-01-16 00:00:00"
-                 },
-                 "lyrics":{
+                },
+                "lyrics":{
                     "1":{
                        "1":{
                           "line_nr":1,
@@ -242,6 +391,12 @@ paths:
             schema:
               required:
                 - release_date
+                - title_cyr
+                - title_lat
+                - cover_art
+                - artists
+                - album
+                - lyrics
               type: object
               properties:
                 release_date:
