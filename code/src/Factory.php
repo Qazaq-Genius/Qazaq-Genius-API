@@ -23,6 +23,22 @@ class Factory
         );
     }
 
+    public function createSongFinder(): SongFinder
+    {
+        return new SongFinder(
+            new MySQLSongReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new MySQLArtistReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new MySQLAlbumReader(
+                $this->mySqlConnector->getConnection()
+            ),
+            new SearchResultMapper
+        );
+    }
+
     public function createSongReader(): SongReader
     {
         return new SongReader(

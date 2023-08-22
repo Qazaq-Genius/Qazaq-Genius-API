@@ -21,7 +21,7 @@ class SongWriter
         $data = json_decode($request->getBody(), true);
 
         if ($data === null) {
-            return ApiResponse::errorMissingData();
+            return ApiResponse::errorMissingJSONData();
         }
 
         $artistIds  = $this->mySQLSongWriter->insertArtists($data["artists"]);
