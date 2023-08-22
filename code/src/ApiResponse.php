@@ -84,7 +84,7 @@ class ApiResponse
             ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
-    public static function errorMissingData(array $missingFields = []): Response
+    public static function errorMissingJSONData(array $missingFields = []): Response
     {
         $response = new Response();
 
@@ -93,7 +93,7 @@ class ApiResponse
             $response->getBody()->write(
                 json_encode(
                     [
-                        "code" => "ERROR_MISSING_DATA",
+                        "code" => "ERROR_MISSING_JSON_DATA",
                         "message" => "Data is missing in the JSON body"
                     ],
                     JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
@@ -104,8 +104,41 @@ class ApiResponse
             $response->getBody()->write(
                 json_encode(
                     [
-                        "code" => "ERROR_MISSING_DATA",
+                        "code" => "ERROR_MISSING_JSON_DATA",
                         "message" => "$missingFieldsString is missing in the JSON body"
+                    ],
+                    JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+                )
+            );
+        }
+
+        return $response->withStatus(400)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*');
+    }
+
+    public static function errorMissingQueryParam(array $missingFields = []): Response
+    {
+        $response = new Response();
+
+        if (empty($missingFields))
+        {
+            $response->getBody()->write(
+                json_encode(
+                    [
+                        "code" => "ERROR_MISSING_QUERY_DATA",
+                        "message" => "The query params can't be empty"
+                    ],
+                    JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+                )
+            );
+        } else {
+            $missingFieldsString = implode(", ", $missingFields);
+            $response->getBody()->write(
+                json_encode(
+                    [
+                        "code" => "ERROR_MISSING_QUERY_DATA",
+                        "message" => "The query param '$missingFieldsString' can't be empty"
                     ],
                     JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
                 )

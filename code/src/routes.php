@@ -17,9 +17,16 @@ return static function (App $app, Factory $factory): void {
 
     $app->group('/api/v1', function (Group $v1) use ($factory) {
 
-        $v1->get('/songs', function (Request $request, Response $response) use ($factory) {
-            return $factory->createSongIdReader()->handle($request, $response);
-        })->setName('healtcheck');
+        $v1->group('/songs', function (Group $songs) use ($factory) {
+            $songs->get('', function (Request $request, Response $response) use ($factory) {
+                return $factory->createSongFinder()->handle($request, $response);
+            })->setName('v1.POST.song');
+
+            $songs->get('/id', function (Request $request, Response $response) use ($factory) {
+                return $factory->createSongIdReader()->handle($request, $response);
+            })->setName('v1.GET.song');
+
+        });
 
         $v1->group('/song', function (Group $song) use ($factory) {
             $song->post('', function (Request $request, Response $response) use ($factory) {
